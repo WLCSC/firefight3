@@ -1,0 +1,8 @@
+<%= link_to service.name, service, class: "btn btn-#{bootstrap_class service.code}" %>
+<% if service.children.count > 0 %>
+<% service.children.each do |s| %>
+  <div class="leaf">
+    <%= render partial: 'tree', locals: {service: s} %>
+  </div>
+<% end %>
+<% end %>

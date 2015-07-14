@@ -1,0 +1,9 @@
+<%= action_row big_link("Your Tickets", tickets_path, 'info', 'tags'), (current_admin ? big_link('New Service', new_service_path, 'primary', 'dashboard') : nil )%>
+
+<h1>Services</h1>
+
+<% @services.each do |service| %>
+  <div class="service-tree">
+    <%= render partial: 'tree', locals: {service: service} %>
+  </div>
+<% end %>

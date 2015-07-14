@@ -1,0 +1,11 @@
+<%= action_row big_link("Back to Building", @building, 'info', 'building'), (current_admin ? big_link('Add New Room', new_building_room_path(@building), 'primary', 'square-o') : nil ) %>
+
+<h1>Listing Rooms in <%= @building.name %></h1>
+
+<%= row do %>
+  <% @building.rooms.each do |room| %>
+    <%= col(3) do %>
+      <%= big_link room.name, building_room_path(@building, room), 'primary' %>
+    <% end %>
+  <% end %>
+<% end %>

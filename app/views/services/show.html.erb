@@ -1,0 +1,62 @@
+<%= action_row big_link('Back to Services', services_path, 'info', 'dashboard'),
+        big_link("Submit Ticket for this Service", wiz_topic_path(targetable_type: 'Service', targetable: @service.name), 'primary', 'tag'),
+        big_link("Tickets for this Service", tickets_path(service_name: @service.name), 'danger', 'tags'),
+        (current_admin ? big_link("Edit Service", edit_service_path(@service), 'warning', 'edit') : nil ),
+        (current_admin ? big_link("Destroy Service", '#', 'danger', 'bomb') : nil)
+%>
+
+<h1><%= @service.name %></h1>
+<p><%= markdown @service.description %></p>
+<% if @service.url.present? %>
+  <%= link_to 'Go!', @service.url, class: 'btn btn-xl btn-success pull-right' %>
+<% end %>
+
+<h2>Recent Statuses</h2>
+<table class="table">
+  <thead>
+    <th>Code</th>
+    <th>On</th>
+    <th>Time</th>
+    <th>Note</th>
+  </thead>
+  <tbody>
+    <% @service.ancestral_statuses.last(5).each do |status| %>
+      <tr>
+        <td><%= Service::STATUS_CODES[status.code] %></td>
+        <td><%= status.service.root.name %></td>
+        <td><%= status.created_at %></td>
+        <td><%= status.note %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-4">
+    <h2>Dependent Services</h2>
+    <div class="service-tree">
+      <%= render partial: 'tree', locals: {service: @service} %>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <% if current_admin %>
+    <h2>Update Status</h2>
+    <% if @broken && @broken != @service %>
+      <p>Currently overriden by <%= link_to @broken.name, @broken %></p>
+    <% else %>
+      <%= form_tag poke_service_path(@service) do %>
+        <div class="form-group">
+          <%= label_tag :code, 'Status Code' %>
+          <%= select_tag :code, options_for_select(Service::STATUS_CODES.map{|k,v| [v,k]}) %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :note %>
+          <%= text_field_tag :note %>
+        </div>
+
+        <%= submit_tag "Update Status", class: 'btn btn-primary' %>
+      <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

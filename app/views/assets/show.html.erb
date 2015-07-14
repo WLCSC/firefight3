@@ -1,0 +1,65 @@
+<%= action_row big_link("Submit Ticket", wiz_topic_path(targetable_type: 'Asset', targetable: @asset.tag), 'primary', 'tag'),
+                big_link('Change Owner', {toggle: :modal, target: '#targetPicker'}, 'info', 'exchange'),
+                big_link("Tickets for this Asset", tickets_path(asset_tag: @asset.tag), 'danger', 'tags'),
+                (current_user.admin? ? big_link("Edit Asset", edit_asset_path(@asset), 'warning', 'edit') : nil)
+                 %>
+
+<h1>Asset <%= @asset.tag %></h1>
+
+<%= row do %>
+  <%= col(3) do %>
+    <p><strong>Owned by:</strong> <%= (@asset.targetable ? link_to(@asset.targetable.name, targetable_path(@asset.targetable)) : "<b>Nobody</b>").html_safe %></p>
+  <% end %>
+  <%= col(3) do %>
+    <p><strong>Vendor:</strong> <%= @asset.vendor %></p>
+  <% end %>
+  <%= col(3) do %>
+    <p><strong>Serial:</strong> <%= @asset.serial %></p>
+  <% end %>
+  <%= col(3) do %>
+    <p><strong>Model:</strong> <%= @asset.model.name %></p>
+  <% end %>
+<% end %>
+<%= row do %>
+  <%= col(4) do %>
+    <p><strong>Name:</strong> <%= @asset.name %></p>
+  <% end %>
+  <%= col(4) do %>
+    <p><strong>Purchase:</strong> <%= nice_date @asset.purchase %></p>
+  <% end %>
+  <%= col(4) do %>
+    <p><strong>Cost:</strong> $<%= @asset.cost %></p>
+  <% end %>
+<% end %>
+
+<%= modal 'targetPicker', 'Choose Asset Owner' do %>
+  <%= form_tag reassign_asset_path(@asset) do %>
+    <%= row do %>
+      <%= col(6) do %>
+        <%= label_tag :user_sid, 'User' %>
+        <%= text_field_tag :user_sid, nil, class: 'typeahead-users' %>
+      <% end %>
+      <%= col(6) do %>
+        <%= label_tag :group_sid, 'Group' %>
+        <%= text_field_tag :group_sid, nil, class: 'typeahead-groups' %>
+      <% end %>
+      <%= col(6) do %>
+        <%= label_tag :room_id, 'Building' %>
+        <%= text_field_tag :building_name, nil, class: 'typeahead-buildings' %>
+      <% end %>
+      <%= col(6) do %>
+        <%= label_tag :room_id, 'Room' %>
+        <%= text_field_tag :room_name, nil, class: 'typeahead-rooms' %>
+      <% end %>
+      <%= col(6) do %>
+        <%= label_tag :asset_id, 'Asset' %>
+        <%= text_field_tag :asset_tag, nil, class: 'typeahead-assets' %>
+      <% end %>
+      <%= col(6) do %>
+        <%= label_tag :room_id, 'Service' %>
+        <%= text_field_tag :service_name, nil, class: 'typeahead-services' %>
+      <% end %>
+    <% end %>
+    <%= submit_tag "Reassign Asset", class: 'btn btn-success' %>
+  <% end %>
+<% end %>

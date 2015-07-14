@@ -1,0 +1,9 @@
+<div class="panel panel-info">
+  <div class="panel-heading"><%= a.user ? a.user.nice_name : 'System' %> wrote at <%= nice_datetime a.created_at %></div>
+  <div class="panel-body attachable-attachment">
+    <% if a.image? %>
+      <%= image_tag a.file.url, class: 'attached-picture' %>
+    <% end %>
+    <%= link_to "#{file_type_icon(a)} Download #{a.file_file_name}".html_safe, a.file.url %>
+  </div>
+</div>

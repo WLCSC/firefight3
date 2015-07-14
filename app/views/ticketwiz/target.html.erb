@@ -1,0 +1,34 @@
+<h1>What is this ticket for?</h1>
+
+<%= row do %>
+  <%= col(4) do %>
+    <%= big_link 'Building', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'building'), 'info', 'building' %>
+  <% end %>
+  <%= col(4) do %>
+    <%= big_link 'Room', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'room'), 'info', 'square-o' %>
+  <% end %>
+  <%= col(4) do %>
+    <%= big_link 'Asset', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'asset'), 'info', 'cube' %>
+  <% end %>
+  <% end %>
+  <%= row do %>
+  <% if current_user.admin? || (@topic && @topic.level_for(current_user) > 90) %>
+    <%= col(4) do %>
+      <%= big_link 'Yourself or another person', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'user'), 'info', 'user' %>
+    <% end %>
+    <%= col(4) do %>
+      <%= big_link 'AD group', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'group'), 'info', 'users' %>
+    <% end %>
+    <%= col(4) do %>
+      <%= big_link 'Service', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'service'), 'info', 'dashboard' %>
+    <% end %>
+  <% else %>
+    <%= col(6) do %>
+      <%= big_link 'Service', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'service'), 'info', 'dashboard' %>
+    <% end %>
+    <%= col(6) do %>
+      <%= big_link 'Yourself or a group of people', wiz_ticket_path(topic_id: @topic.id, targetable_type: 'user'), 'info', 'user' %>
+    <% end %>
+  <% end %>
+
+<% end %>

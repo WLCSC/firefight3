@@ -1,0 +1,17 @@
+<% if a.mod %>
+  <% if current_admin %>
+    <div class="panel panel-inverse">
+      <div class="panel-heading"><%= a.user ? a.user.nice_name : 'System' %> wrote at <%= nice_datetime a.created_at %></div>
+      <div class="panel-body">
+        <%= markdown a.content %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="panel panel-info">
+    <div class="panel-heading"><%= a.user ? a.user.nice_name : 'System' %> wrote at <%= nice_datetime a.created_at %></div>
+    <div class="panel-body">
+      <%= markdown a.content %>
+    </div>
+  </div>
+<% end %>

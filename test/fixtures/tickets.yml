@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  topic: 
+  submitter_sid: MyString
+  due: 2015-07-01 09:29:34
+  status: 1
+
+two:
+  topic: 
+  submitter_sid: MyString
+  due: 2015-07-01 09:29:34
+  status: 1

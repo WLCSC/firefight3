@@ -1,0 +1,42 @@
+<h1>Submitting Ticket</h1>
+<h2><%= @topic.name %> - <%= @type.capitalize %></h2>
+
+<%= form_tag wiz_submit_path do %>
+
+      <%= hidden_field_tag :topic_id, @ticket.topic_id %>
+      <%= hidden_field_tag :submitter_sid, @ticket.submitter_sid %>
+      <%= hidden_field_tag :targetable_type, params[:targetable_type] %>
+
+      <%= row do %>
+        <%= col(2) do %>
+          <div class="form-group">
+            <%= label_tag :status, 'Priority' %>
+            <%= select_tag :status, options_for_select({"Deferred" => -1, "Low" => 0, "Routine" => 20, "Urgent" => 10}), class: 'form-control' %>
+          </div>
+        <% end %>
+        <%= col(8) do %>
+          <div class="form-group">
+            <%= label_tag :due, '(optional) Due Date' %>
+            <%= datetime_select nil, :due, include_blank: true, start_year: Date.today.year %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%= row do %>
+        <%= col(3) do %>
+          <div class="form-group">
+            <%= label_tag :targetable, @type.capitalize %>
+            <%= text_field_tag :targetable, (@ticket.targetable.try(:samaccountname) || @ticket.targetable.try(:tag) || @ticket.targetable.try(:nice_name) || ''), class: "form-control typeahead-#{@type.pluralize.downcase}" %>
+          </div>
+        <% end %>
+        <%= col(9) do %>
+          <div class="form-group">
+            <%= label_tag :comment %>
+            <%= text_area_tag :comment, @ticket.comment, class: 'form-control' %>
+          </div>
+        <% end %>
+<% end %>
+
+<%= submit_tag "Submit Ticket", class: 'btn btn-large btn-success' %>
+
+<% end %>

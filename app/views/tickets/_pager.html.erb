@@ -1,0 +1,3 @@
+<%= render partial: 'tickets/table', locals: {tickets: tickets} %>
+
+<%= paginate tickets, param_name: (local_assigns.fetch(:param, 'page')) %>

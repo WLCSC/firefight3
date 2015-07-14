@@ -1,0 +1,13 @@
+<%= semantic_form_for(@model) do |f| %>
+<%= f.semantic_errors %>
+
+<%= f.inputs do %>
+  <%= f.input :name, required: true %>
+  <%= f.input :manufacturer, required: true, input_html: {class: 'typeahead-manufacturers'} %>
+  <%= f.input :category, required: true, input_html: {class: 'typeahead-categories'} %>
+<% end %>
+
+<%= f.actions do %>
+    <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary btn-lg' } %>
+  <% end %>
+<% end %>

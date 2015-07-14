@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_sid: MyString
+  subscribable_id: 
+  subscribable_type: Subscribable
+
+two:
+  user_sid: MyString
+  subscribable_id: 
+  subscribable_type: Subscribable

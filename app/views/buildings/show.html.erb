@@ -1,0 +1,19 @@
+<%= action_row  big_link("Submit Ticket for this Building", wiz_topic_path(targetable_type: 'Building', targetable: @building.name), 'primary', 'tag'),
+                  big_link("Back to Building List", buildings_path, 'info', 'building-o'),
+                  (current_admin ? big_link('Users Assigned to this Building', users_building_path, 'success', 'group') : nil),
+                  (current_admin ? big_link('Tickets in this Building', tickets_path(associated_building: @building.short), 'danger', 'tags') : nil),
+                  (current_admin ? big_link("Manage Rooms in this Building", building_rooms_path(@building), 'info', 'square-o') : nil),
+                  (current_admin ? big_link("Edit Building", edit_building_path(@building), 'warning', 'edit') : nil)
+                  %>
+
+
+<h1><%= @building.name %></h1>
+
+<h2>Rooms</h2>
+<%= row do %>
+  <% @building.rooms.each do |room| %>
+    <%= col(3) do %>
+      <%= big_link room.name, building_room_path(@building, room), 'primary' %>
+    <% end %>
+  <% end %>
+<% end %>

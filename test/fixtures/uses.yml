@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  room_id: 
+  consumable_id: 
+  comment_id: 
+
+two:
+  room_id: 
+  consumable_id: 
+  comment_id: 

@@ -1,0 +1,17 @@
+development:
+  host: Domain Controller
+  base: Base DN
+  bind_dn: Bind DN (i.e. ORG\Whoever)
+  password: (Bind DN Password)
+
+test:
+  host: Domain Controller
+  base: Base DN
+  bind_dn: Bind DN (i.e. ORG\Whoever)
+  password: (Bind DN Password)
+
+production:
+  host: Domain Controller
+  base: Base DN
+  bind_dn: Bind DN (i.e. ORG\Whoever)
+  password: (Bind DN Password)

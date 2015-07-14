@@ -1,0 +1,12 @@
+<%= action_row big_link("Your Tickets", tickets_path, 'info', 'tags'),
+              (current_admin ? big_link('New Topic', new_topic_path, 'primary', 'folder-open') : nil) %>
+
+<h1>Topics</h1>
+
+<%= row do %>
+  <% @topics.each do |topic| %>
+    <%= col(3) do %>
+      <%= big_link topic.name, topic, 'info', topic.icon %>
+    <% end %>
+  <% end %>
+<% end %>

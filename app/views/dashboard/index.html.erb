@@ -1,0 +1,42 @@
+<% if current_user %>
+<%= action_row big_link("Submit Ticket", wiz_topic_path, 'primary', 'tag'), big_link("Your Tickets", tickets_path(user_sid: current_user.samaccountname), 'info', 'tags'), big_link('Ticket Finder', tickets_path, 'warning', 'search'), big_link('Service Info', services_path, 'success', 'dashboard') %>
+
+<% end %>
+<%= row do %>
+  <%= col(8) do %>
+    <% if current_user %>
+      <% if current_user.mod? %>
+        <h2>Your Assigned Tickets</h2>
+        <%= render partial: 'tickets/pager', locals: {tickets: current_user.assigned_tickets.incomplete.order(:id).page(params[:mission_page]), param: 'mission_page'} %>
+      <% end %>
+      <h2>Your Submitted Tickets</h2>
+      <%= render partial: 'tickets/pager', locals: {tickets: current_user.submitted_tickets.incomplete.order(:id).page(params[:submitted_page]), param: 'submitted_page'} %>
+      <h2>Your Tagged Tickets</h2>
+      <% current_user.tagged_tickets.incomplete.order(:id).each do |t| %>
+        <%= link_to t.nice_name, t, class: "btn btn-#{bootstrap_class t.status} btn-sm" %>
+      <% end %>
+    <% else %>
+      <%= render partial: 'login' %>
+    <% end %>
+  <% end %>
+  <%= col(4) do %>
+    <h2>Service Status</h2>
+    <% if @alerts.length > 0 %>
+      <% @alerts.each do |a| %>
+        <div class="alert alert-<%= bootstrap_class a.code %>">
+          <p><strong><%= a.name %></strong></p>
+          <p><%= Service::STATUS_CODES[a.code] %> at <%= nice_datetime a.created_at %></p>
+          <p><%= a.note %></p>
+          <% if a.children.count > 0 %>
+            <p><em>Also affects <%= a.children_list.map{|c| c.name}.join ', ' %></em></p>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="alert alert-success">
+        <p><strong>Everything's up and running!</strong></p>
+        <p>...unless something's going on that we don't know about.  <% if current_user %>If there is, <%= link_to "fill out a ticket", wiz_topic_path(targetable_type: 'Service'), class: 'alert-link' %> and let us know.<% end %></p>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

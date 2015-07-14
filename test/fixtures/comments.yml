@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  attachable: 
+  user_sid: MyString
+
+two:
+  content: MyText
+  attachable: 
+  user_sid: MyString

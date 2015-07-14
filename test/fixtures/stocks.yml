@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  count: 1
+  consumable_id: 
+  room_id: 
+
+two:
+  count: 1
+  consumable_id: 
+  room_id: 

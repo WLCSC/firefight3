@@ -1,0 +1,8 @@
+<%= action_row (current_admin ? big_link("Permissions for this Topic", permissions_topic_path(@topic), 'warning', 'key') : nil),
+              big_link("Tickets with this Topic", tickets_path(topic_id: @topic.id), 'info', 'tags'),
+              big_link("Submit Ticket for this Topic", wiz_target_path(topic_id: @topic.id), 'primary', 'tag'),
+              big_link("Back to Topics", topics_path, 'info', 'folder-open'),
+              (current_admin ? big_link("Edit Topic", edit_topic_path(@topic), 'warning', 'edit') : nil ),
+              (current_admin ? big_link("Destroy Topic", '#', 'danger', 'bomb') : nil) %>
+
+<h1><%= @topic.name %></h1>

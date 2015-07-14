@@ -1,0 +1,173 @@
+body {
+  background-color: #b11d09;
+  background-image: asset-url("buried.png");
+  font-family: 'Open Sans', sans-serif;
+  padding-top: 80px;
+}
+
+.container#main {
+  background-color: #ffd1cb;
+  border: thin solid #5a0a00;
+  border-radius: 8px;
+}
+
+.navbar-inverse {
+  img {
+    display: inline;
+    margin-top: -6px;
+  }
+
+  a.navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-family: 'Merriweather', serif;
+  }
+}
+
+.btn {
+  border-bottom-width: 4px;
+  margin-bottom: 2px;
+  margin-top: 0px;
+
+  &:hover {
+    border-bottom-width: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px !important;
+  }
+}
+
+.action-panel .btn {
+  margin-bottom: 8px;
+
+  &:hover {
+    margin-bottom: 8px !important;
+  }
+}
+
+.navbar-btn {
+  border-bottom-width: 1px;
+  margin-top: 8px;
+
+  &:hover {
+    border-bottom-width: 1px;
+    margin-top: 8px;
+  }
+}
+
+.btn-block:hover {
+  margin-bottom: 0px;
+}
+
+.btn-big {
+  .fa {
+    font-size: 3em;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  &.btn-big-text {
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+
+  margin-bottom: 2px;
+}
+
+.contentline > h1 {
+  text-align: right;
+  margin-top: 5px;
+  padding-right: 1em;
+  padding-bottom: 10px;
+  border-bottom: thin solid $brand-danger;
+}
+
+.footline {
+  margin-top: 10px;
+}
+
+.row.actions {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom: thin solid $brand-danger;
+}
+
+.flash-container {
+  position: absolute;
+  width: 20vw;
+  right: 1vw;
+  top: 65px;
+  z-index: 9999;
+}
+
+.actions input.btn {
+  padding: 6px 12px !important;
+}
+
+label.label {
+  font-size: 1.2em;
+}
+
+.btn {
+  white-space: normal;
+}
+
+.service-tree {
+  .btn {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .leaf {
+    margin-left: 2vw;
+    .btn {
+      font-size: 0.9em;
+    }
+  }
+}
+
+.tt-menu {
+  z-index: 99999999;
+}
+
+.formtastic .input {
+  overflow: visible;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.attachable-attachment img {
+  max-width: 100%;
+  max-height: 25vh;
+  display: block;
+  margin: auto;
+}
+
+.attachable-attachment a {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.table > tbody > tr.success > td, .table > tbody > tr.danger > td {
+  border-top: thin solid #ccc;
+  border-bottom: thin solid #ccc;
+}
+
+.panel-inverse {
+  background-color: #100;
+  color: #fff;
+  border-color: #ffd1cb;
+
+  .panel-heading {
+    background-color: #211;
+    color: #f11;
+    border-color: #ff8373;
+  }
+}

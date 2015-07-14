@@ -1,0 +1,33 @@
+$brand-primary: #ed4a35;
+$brand-success: #27b14c;
+$brand-info: #5891b6;
+$brand-warning: #ed9c35;
+$brand-danger: #5a0a00;
+$alert-success-bg: $brand-success;
+$alert-success-text: white;
+$alert-success-border: darken($brand-success, 20%);
+$alert-info-bg: $brand-info;
+$alert-info-text: white;
+$alert-info-border: darken($brand-info, 20%);
+$alert-warning-bg: $brand-warning;
+$alert-warning-text: white;
+$alert-warning-border: darken($brand-warning, 20%);
+$alert-danger-bg: $brand-danger;
+$alert-danger-text: white;
+$alert-danger-border: lighten($brand-danger, 20%);
+$text-color: #222;
+$label-color: black;
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$font-family-serif: 'Merriweather', serif;
+$font-family-monospace: 'Insonsolata', 'Consolas', monospace;
+$table-border-color: #ff8373;
+
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "formtastic";
+@import "formtastic-bootstrap";
+@import "fa-local";
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700|Merriweather:400,700,400italic,700italic|Inconsolata);
+@import "custom";
+@import 'typeahead';

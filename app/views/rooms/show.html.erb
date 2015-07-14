@@ -1,0 +1,14 @@
+<%= action_row big_link("Submit Ticket", wiz_topic_path(targetable_type: 'Room', targetable: @room.nice_name), 'primary', 'tag'),
+                big_link("Tickets for this Room", tickets_path(associated_room: @room.nice_name), 'danger', 'tags'),
+                big_link('Back to Building', @building, 'primary', 'building'),
+                big_link('Back to Rooms', building_rooms_path(@building), 'info', 'square-o'),
+                (current_admin ? big_link("Edit Room", edit_building_room_path(@building, @room), 'warning', 'edit') : nil),
+                (current_admin ? big_link("Destroy Room", '#', 'danger', 'bomb') : nil) %>
+
+<h1><%= @room.nice_name %></h1>
+
+<h2>Assets in this Room</h2>
+
+<% @room.assets.each do |a| %>
+  <%= link_to a.tag, a, class: 'btn btn-info' %>
+<% end %>

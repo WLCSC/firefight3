@@ -1,0 +1,13 @@
+<%= action_row big_link("Submit Ticket", new_ticket_path, 'primary', 'tag'), big_link("Your Tickets", tickets_path, 'info', 'tags'), (current_mod ? big_link('New Asset', new_asset_path, 'primary', 'cube') : nil) %>
+
+<h1>All Assets</h1>
+
+<%= row do %>
+  <% @assets.each do |asset| %>
+    <%= col(3) do %>
+      <%= big_link asset.tag, asset, 'info' %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= paginate @assets %>

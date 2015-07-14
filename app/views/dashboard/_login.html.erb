@@ -1,0 +1,12 @@
+<h2>Log In to Firefight</h2>
+<%= form_tag login_path do %>
+  <div class="form-group">
+    <%= label_tag :username %>
+    <%= text_field_tag :username, nil, placeholder: 'Username' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :password %>
+    <%= password_field_tag :password, nil, placeholder: 'Password' %>
+  </div>
+  <%= submit_tag "Log In", class: 'btn btn-xl btn-success' %>
+<% end %>

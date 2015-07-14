@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @consumable.name %>
+</p>
+
+<p>
+  <strong>Short:</strong>
+  <%= @consumable.short %>
+</p>
+
+<p>
+  <strong>Barcode:</strong>
+  <%= @consumable.barcode %>
+</p>
+
+<%= link_to 'Edit', edit_consumable_path(@consumable) %> |
+<%= link_to 'Back', consumables_path %>

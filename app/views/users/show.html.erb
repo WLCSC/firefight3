@@ -1,0 +1,43 @@
+<%= action_row big_link("#{@user.givenName}'s Tickets", tickets_path(submitter_sid: @user.samaccountname), 'info', 'tags'), big_link("Submit Ticket", wiz_topic_path(targetable_type: 'User', targetable: @user.samaccountname), 'primary', 'tag') %>
+
+<h1><%= @user.nice_name %></h1>
+
+<%= row do %>
+  <%= col(6) do %>
+<h2>Building Assignments</h2>
+
+<%= row do %>
+  <% @user.buildings.each do |building| %>
+    <%= col(2) do %>
+      <%= big_link building.short, building, 'info' %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if current_user == @user || current_user.admin? %>
+<h3>Assign to Building</h3>
+<%= form_tag assign_user_path(@user.samaccountname) do %>
+  <%= select_tag :building_id, options_for_select(Building.all.map{|b| [b.name, b.id]}) %>
+  <%= hidden_field_tag :user_sid, @user.samaccountname %>
+  <%= submit_tag "Add", class: 'btn btn-success' %>
+<% end %>
+<% end %>
+<% end %>
+<%= col(6) do %>
+<h2>Topic Permissions</h2>
+
+<table class="table">
+  <% @user.topics.each do |topic| %>
+    <tr>
+      <td><%= link_to topic.name, topic %></td>
+      <td><%= Permission::VALUES[topic.level_for(@user)] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h2>Group Membership</h2>
+<% @user.groups.each do |g| %>
+<%= link_to g.nice_name, group_path(g), class: 'btn btn-info btn-sm' %>
+<% end %>
+<% end %>
+<% end %>

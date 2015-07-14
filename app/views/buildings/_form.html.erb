@@ -1,0 +1,11 @@
+<%= semantic_form_for(@building) do |f| %>
+  <%= f.semantic_errors %>
+  <%= f.inputs do %>
+    <%= f.input :name, required: true %>
+    <%= f.input :short, required: true, label: 'Code' %>
+    <%= f.input :storeroom %>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary btn-lg' } %>
+  <% end %>
+<% end %>

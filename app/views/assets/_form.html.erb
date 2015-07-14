@@ -1,0 +1,15 @@
+<%= semantic_form_for(@asset) do |f| %>
+  <%= f.semantic_errors %>
+  <%= f.inputs do %>
+    <%= f.input :tag, required: true %>
+    <%= f.input :name %>
+    <%= f.input :serial, required: true %>
+    <%= f.input :model_n, as: :string, input_html: {class: 'typeahead-models'} %>
+    <%= f.input :purchase, label: 'Purchase Date' %>
+    <%= f.input :vendor, input_html: {class: 'typeahead-vendors'} %>
+    <%= f.input :cost %>
+    <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary btn-lg' } %>
+  <% end %>
+<% end %>

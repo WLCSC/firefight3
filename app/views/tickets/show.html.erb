@@ -1,0 +1,327 @@
+<%= action_row big_link('Add Comment', {toggle: 'modal', target: '#modal-add-comment'}, 'info', 'comment-o'), big_link('Tag Something', {toggle: 'modal', target: '#modal-tag-something'}, 'info', 'tag') %>
+
+<h1>Ticket #<%= @ticket.id %></h1>
+
+<%= row do %>
+  <%= col(4) do %>
+    <div class="panel panel-<%= bootstrap_class @ticket.status %>">
+      <div class="panel-heading"><h4>Ticket Info</h4></div>
+      <div class="panel-body">
+        <dl>
+          <dt>Current Status:</dt>
+          <dd><%= Ticket::STATUS_CODES[@ticket.status] %></dd>
+          <dt>Topic:</dt>
+          <dd><%= link_to @ticket.topic.name, @ticket.topic %></dd>
+          <dt>Submitted:</dt>
+          <dd><%= nice_datetime @ticket.created_at %></dd>
+          <dt>Submitted By:</dt>
+          <dd><%= link_to @ticket.submitter.nice_name, user_path(@ticket.submitter) %></dd>
+          <dt>Assigned To:</dt>
+          <dd>
+            <% if @ticket.missions.count > 0 %>
+              <%= @ticket.missions.map{|m| link_to m.user.nice_name, user_path(m.user.samaccountname)}.join(', ').html_safe %>
+            <% else %>
+              <i>Nobody!</i>
+            <% end %>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <% if @ticket.steps.count > 0 %>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h4>Steps</h4></div>
+        <div class="panel-body">
+          <table class="table">
+            <% @ticket.steps.each do |s| %>
+              <tr class="<%= s.done? ? 'success' : 'danger' %>">
+                <td><%= markdown s.content %></td>
+                <td class="right-align">
+                  <% if !s.done? %>
+                    <%= link_to fa_icon('check-square'), step_ticket_path(step_id: s.id, do: 'complete'), class: 'btn btn-xs btn-success', method: 'post' %>
+                  <% end %>
+                  <%= link_to fa_icon('bomb'), step_ticket_path(step_id: s.id, do: 'delete'), class: 'btn btn-xs btn-danger', method: 'post' %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="panel panel-info">
+      <div class="panel-heading"><h4>Tagged Objects<h4></div>
+      <div class="panel-body">
+        <% @ticket.targetables.each do |t| %>
+          <%= link_to t.nice_name, targetable_path(t), class: 'btn btn-sm btn-info' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= col(8) do %>
+    <% @ticket.attachables.each do |a| %>
+      <%= render partial: "attachable/#{a.class.to_s.downcase}", locals: {a: a} %>
+    <% end %>
+
+    <div class="panel panel-default action-panel">
+      <div class="panel-heading">Actions</div>
+      <div class="panel-body">
+          <%= col(6) do %>
+            <%= big_link('Add Comment', {toggle: 'modal', target: '#modal-add-comment'}, 'info', 'comment-o') %>
+            <%= modal 'modal-add-comment', 'Add a Comment' do %>
+              <div class="container-fluid">
+                <%= col 8 do %>
+                  <%= form_tag attach_ticket_path(@ticket) do %>
+                    <div class="form-group">
+                      <%= label_tag :content, "Type your comment here" %>
+                      <%= text_area_tag :content, nil, class: 'form-control' %>
+                    </div>
+                    <% if @ticket.topic.level_for(current_user) > 90 %>
+                    <div class="form-group">
+                      <%= label_tag :mod, "Mod Only Comment?" %>
+                      <%= check_box_tag :mod %>
+                    </div>
+                    <% end %>
+                    <%= submit_tag "Add Comment", class: 'btn btn-success btn-xl' %>
+                  <% end %>
+                <% end %>
+                <%= col 4 do %>
+                  <p>You can use <%= link_to 'markdown', '#' %> to format your comment.</p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+          <%= col(6) do %>
+            <% if @ticket.closable? %>
+              <%= big_link('Comment & Complete', {toggle: 'modal', target: '#modal-comment-complete'}, 'success', 'check-circle') %>
+              <%= modal 'modal-comment-complete', 'Add a Comment & Complete' do %>
+                <div class="container-fluid">
+                  <%= col 8 do %>
+                    <%= form_tag attach_ticket_path(@ticket) do %>
+                      <div class="form-group">
+                        <%= label_tag :content, "Type your comment here" %>
+                        <%= text_area_tag :content, nil, class: 'form-control' %>
+                      </div>
+                      <%= submit_tag "Comment & Complete", class: 'btn btn-success btn-xl' %>
+                    <% end %>
+                  <% end %>
+                  <%= col 4 do %>
+                    <p><b>This will mark this ticket as completed.</b></p>
+                    <p>You can use <%= link_to 'markdown', '#' %> to format your comment.</p>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <%= big_link("Can't Complete", {}, 'danger', 'check-square-o') %>
+            <% end %>
+          <% end %>
+          <%= col(3) do %>
+            <%= big_link('Add Attachment', {toggle: 'modal', target: '#modal-attach-file'}, 'info', 'file-o') %>
+            <%= modal 'modal-attach-file', 'Upload an Attachment' do %>
+            <%= form_tag attach_ticket_path(@ticket), multipart: true do %>
+              <div class="form-group">
+                <%= file_field_tag :file, class: 'form-control' %>
+              </div>
+              <%= submit_tag "Add Attachment", class: 'btn btn-success btn-xl' %>
+            <% end %>
+            <% end %>
+          <% end %>
+          <%= col(3) do %>
+            <%= big_link('Add Alert', {toggle: 'modal', target: '#modal-add-alert'}, 'info', 'clock-o') %>
+            <%= modal 'modal-add-alert', 'Add an Alert' do %>
+              <div class="container-fluid">
+                <%= form_tag attach_ticket_path(@ticket) do %>
+                  <%= col 12 do %>
+                    <div class="form-group">
+                      <%= label_tag :content, "Note" %>
+                      <%= text_area_tag :content, nil, class: 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag :trigger, "Trigger Time" %>
+                      <%= datetime_select :trigger, nil, class: 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag :status, "Put Ticket to Sleep & Set Status on Trigger" %>
+                      <%= select_tag :status, options_for_select([["No, don't put ticket to sleep", nil]] + Ticket::STATUS_CODES.map{|k,v| [v,k]}), class: 'form-control' %>
+                    </div>
+                    <%= submit_tag "Add Alert", class: 'btn btn-success btn-xl' %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+          <%= col(3) do %>
+            <%= big_link('Add Step', {toggle: 'modal', target: '#modal-add-step'}, 'info', 'check-square-o') %>
+            <%= modal 'modal-add-step', 'Add a Step' do %>
+              <div class="container-fluid">
+                <%= col 7 do %>
+                  <%= form_tag attach_ticket_path(@ticket) do %>
+                    <div class="form-group">
+                      <%= label_tag :content, "Describe the step you're adding" %>
+                      <%= text_area_tag :content, nil, class: 'form-control' %>
+                    </div>
+                    <%= submit_tag "Add Step", class: 'btn btn-success btn-xl' %>
+                  <% end %>
+                <% end %>
+                <%= col 5 do %>
+                  <p><b>Steps</b> work like sub-tickets.  The ticket cannot be marked as complete until all of its steps are also completed.</p>
+                  <p>You can use <%= link_to 'markdown', '#' %> to format your text.</p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <%= col(3) do %>
+            <%= big_link('Change Status', {toggle: 'modal', target: '#modal-change-status'}, 'info', 'exchange') %>
+            <%= modal 'modal-change-status', 'Change Ticket Status' do %>
+              <%= form_tag attach_ticket_path(@ticket) do %>
+                <div class="form-group">
+                  <%= select_tag :status, options_for_select(Ticket::STATUS_CODES.map{|k,v| [v,k]}), class: 'form-control' %>
+                </div>
+                <%= submit_tag "Change Status", class: 'btn btn-success btn-xl' %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= col(3) do %>
+            <%= big_link('Use Consumable', {}, 'info', 'barcode') %>
+          <% end %>
+          <%= col(3) do %>
+            <%= big_link('Tag Something', {toggle: 'modal', target: '#modal-tag-something'}, 'info', 'tag') %>
+            <%= modal 'modal-tag-something', 'Tag Something' do %>
+              <div class="container-fluid">
+                <%= form_tag attach_ticket_path do %>
+                  <%= row do %>
+                    <%= col(6) do %>
+                      <%= text_field_tag :room_name, nil, class: 'typeahead-rooms', placeholder: 'Room' %>
+                      <%= submit_tag 'Tag Room', class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                    <%= col(6) do %>
+                      <%= text_field_tag :building_name, nil, class: 'typeahead-buildings', placeholder: 'Building' %>
+                      <%= submit_tag 'Tag Building', class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                    <%= col(6) do %>
+                      <%= text_field_tag :asset_tag, nil, class: 'typeahead-assets', placeholder: 'Asset #' %>
+                      <%= submit_tag 'Tag Asset', class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                    <%= col(6) do %>
+                      <%= text_field_tag :user_sid, nil, class: 'typeahead-users', placeholder: 'Username' %>
+                      <%= submit_tag 'Tag User', class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                    <%= col(6) do %>
+                      <%= text_field_tag :service_name, nil, class: 'typeahead-services', placeholder: 'Service' %>
+                      <%= submit_tag 'Tag Service', class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                    <%= col(6) do %>
+                      <%= text_field_tag :group_sid, nil, class: 'typeahead-groups', placeholder: 'AD Group' %>
+                      <%= submit_tag 'Tag Group', class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+          <%= col(3) do %>
+            <%= big_link('Untag Something', {toggle: 'modal', target: '#modal-untag-something'}, 'info', 'ban') %>
+            <%= modal 'modal-untag-something', 'Untag Something' do %>
+              <%= form_tag attach_ticket_path(@ticket) do %>
+                <div class="form-group">
+                  <%= select_tag :target_id, options_for_select(@ticket.targets.map{|t| [t.targetable.nice_name, t.id]}), class: 'form-control' %>
+                </div>
+                <%= submit_tag "Untag Object", class: 'btn btn-success btn-xl' %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if @ticket.topic.level_for(current_user) > 90 %>
+            <%= col(3) do %>
+              <%= big_link('Change Topic ', {toggle: 'modal', target: '#modal-change-topic'}, 'info', 'folder') %>
+              <%= modal 'modal-change-topic', 'Change Topic' do %>
+                <%= form_tag attach_ticket_path(@ticket) do %>
+                  <div class="form-group">
+                    <%= select_tag :topic_id, options_for_select(Topic.all.map{|t| [t.name, t.id]}), class: 'form-control' %>
+                  </div>
+                  <%= submit_tag "Change Topic", class: 'btn btn-success btn-xl' %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if @ticket.topic.level_for(current_user) > 90 %>
+            <%= col(3) do %>
+              <%= big_link('Assign Asset', {toggle: 'modal', target: '#modal-assign-asset'}, 'info', 'cubes') %>
+              <%= modal 'modal-assign-asset', 'Assign Asset to Something' do %>
+                <div class="container-fluid">
+                  <%= form_tag attach_ticket_path(@ticket) do %>
+                    <%= col 8 do %>
+                      <div class="form-group">
+                        <%= label_tag :target_id, "Assign to:" %>
+                        <%= select_tag :target_id, options_for_select(@ticket.targets.map{|t| [t.targetable.nice_name, t.id]}), class: 'form-control' %>
+                      </div>
+                    <% end %>
+                    <%= col 4 do %>
+                      <div class="form-group">
+                        <%= label_tag :asset_tag, "Asset" %>
+                        <%= text_field_tag :asset_tag, nil, class: 'form-control typeahead-assets' %>
+                      </div>
+                    <% end %>
+                    <%= submit_tag "Assign Asset", class: 'btn btn-success btn-xl' %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if @ticket.topic.level_for(current_user) > 90 %>
+            <%= col(3) do %>
+              <%= big_link('Assign Tech',  {toggle: 'modal', target: '#modal-assign-someone'}, 'info', 'briefcase') %>
+              <%= modal 'modal-assign-someone', 'Assign Someone' do %>
+                <%= form_tag attach_ticket_path(@ticket) do %>
+                  <div class="form-group">
+                    <%= select_tag :user_sid, options_for_select(@ticket.topic.permissions.where(:level => 100).map{|p| p.users}.flatten.uniq.sort_by(&:name).map{|u| [u.nice_name, u.samaccountname]}), class: 'form-control' %>
+                  </div>
+                  <%= submit_tag "Assign User", class: 'btn btn-success btn-xl' %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if @ticket.topic.level_for(current_user) > 90 && @ticket.missions.count > 0 %>
+            <%= col(3) do %>
+              <%= big_link('Unassign Tech', {toggle: 'modal', target: '#modal-unassign-someone'}, 'info', 'user-times') %>
+              <%= modal 'modal-unassign-someone', 'Unassign Someone' do %>
+                <%= form_tag attach_ticket_path(@ticket) do %>
+                  <div class="form-group">
+                    <%= select_tag :mission_id, options_for_select(@ticket.missions.map{|t| [t.user.nice_name, t.id]}), class: 'form-control' %>
+                  </div>
+                  <%= submit_tag "Unassign User", class: 'btn btn-success btn-xl' %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if current_user.admin? && @ticket.targets.to_a.keep_if{|t| t.targetable.is_a? Service}.count > 0 %>
+            <%= col(3) do %>
+              <%= big_link('Update Service', {toggle: 'modal', target: '#modal-update-service'}, 'info', 'dashboard') %>
+              <%= modal 'modal-update-service', 'Update Service Status' do %>
+              <%= form_tag attach_ticket_path(@ticket) do %>
+                <%= col 6 do %>
+                  <div class="form-group">
+                    <%= label_tag :target_id, "Service" %>
+                    <%= select_tag :service_id, options_for_select(@ticket.targets.to_a.keep_if{|t| t.targetable.is_a? Service}.map{|t| [t.targetable.nice_name, t.targetable.id]}), class: 'form-control' %>
+                  </div>
+                <% end %>
+                <%= col 6 do %>
+                  <div class="form-group">
+                    <%= label_tag :code, 'Status Code' %>
+                    <%= select_tag :code, options_for_select(Service::STATUS_CODES.map{|k,v| [v,k]}) %>
+                  </div>
+                  <div class="form-group">
+                    <%= label_tag :note %>
+                    <%= text_field_tag :note %>
+                  </div>
+                <% end %>
+                <%= submit_tag "Update Service", class: 'btn btn-success btn-xl' %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

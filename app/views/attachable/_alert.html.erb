@@ -1,0 +1,20 @@
+<div class="panel panel-info">
+  <div class="panel-heading"><%= a.user ? a.user.nice_name : 'System' %> wrote at <%= nice_datetime a.created_at %></div>
+  <div class="panel-body attachable-alert">
+    <%= row do %>
+      <%= col 8 do %>
+        <%= markdown a.content %>
+      <% end %>
+      <%= col 4 do %>
+        <dl>
+          <dt>Trigger:</dt>
+          <dd><%= nice_datetime a.trigger %> (<%= time_delta a.trigger %>)</dd>
+          <% if a.meta['wakeStatus'].present? %>
+            <dt>Wake to:</dt>
+            <dd><%= Ticket::STATUS_CODES[a.meta['wakeStatus'].to_i] %></dd>
+          <% end %>
+        </dl>
+      <% end %>
+    <% end %>
+  </div>
+</div>

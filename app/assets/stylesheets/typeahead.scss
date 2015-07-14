@@ -1,0 +1,12 @@
+.twitter-typeahead {
+  input {
+    border-color: $brand-info;
+  }
+
+  .tt-menu {
+    background-color: white;
+    color: #111;
+    border: thin solid $brand-danger;
+    border-radius: 4px;
+  }
+}

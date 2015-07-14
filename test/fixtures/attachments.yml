@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_sid: MyString
+  attachable_id: 
+  attachable_type: Attachable
+
+two:
+  user_sid: MyString
+  attachable_id: 
+  attachable_type: Attachable

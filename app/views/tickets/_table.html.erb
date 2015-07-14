@@ -1,0 +1,9 @@
+<table class="table">
+  <% tickets.each do |t| %>
+    <tr>
+      <td class="col-md-2 right-align"><%= link_to t.nice_name, t, class: "btn btn-#{bootstrap_class t.status} btn-sm" %></td>
+      <td class="col-md-4"><%= t.submitter.nice_name %><br/><%= Ticket::STATUS_CODES[t.status] %> - <%= time_delta t.created_at %></td>
+      <td class="col-md-6"><%= t.comments.first.content %></td>
+    </tr>
+  <% end %>
+</table>

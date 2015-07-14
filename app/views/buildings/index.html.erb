@@ -1,0 +1,11 @@
+<%= action_row big_link("Submit Ticket", new_ticket_path, 'primary', 'tag'), big_link("Your Tickets", tickets_path, 'info', 'tags'), big_link('New Building', new_building_path, 'primary', 'building') %>
+
+<h1>Buildings</h1>
+
+<%= row do %>
+  <% @buildings.each do |building| %>
+    <%= col(3) do %>
+      <%= big_link building.name, building_path(building), 'primary' %>
+    <% end %>
+  <% end %>
+<% end %>

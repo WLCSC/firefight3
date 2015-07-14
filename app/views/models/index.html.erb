@@ -1,0 +1,11 @@
+<%= action_row big_link("Your Tickets", tickets_path, 'info', 'tags'), big_link('New Model', new_model_path, 'primary', 'wrench') %>
+
+<h1>Asset Models</h1>
+
+<%= row do %>
+  <% @models.each do |model| %>
+    <%= col(3) do %>
+      <%= big_link model.name_with_manufacturer, model, 'info' %>
+    <% end %>
+  <% end %>
+<% end %>

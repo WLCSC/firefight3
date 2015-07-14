@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  attachable_id: 
+  attachable_type: Attachable
+  content: MyText
+  trigger: 2015-07-01 09:42:23
+  meta: 
+
+two:
+  attachable_id: 
+  attachable_type: Attachable
+  content: MyText
+  trigger: 2015-07-01 09:42:23
+  meta: 

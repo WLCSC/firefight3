@@ -1,0 +1,12 @@
+<%= semantic_form_for(@topic) do |f| %>
+<%= f.semantic_errors %>
+
+<%= f.inputs do %>
+  <%= f.input :name, required: true %>
+  <%= f.input :icon, required: true, as: :select, collection: FONT_AWESOME_ICONS %>
+<% end %>
+
+<%= f.actions do %>
+    <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary btn-lg' } %>
+  <% end %>
+<% end %>

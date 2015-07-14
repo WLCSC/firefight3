@@ -1,0 +1,17 @@
+<h1>Who is this ticket for?</h1>
+
+<% if @targetable %>
+<h3>Submitting ticket for <%= @type.capitalize %> <%= @targetable.nice_name %></h3>
+<% end %>
+
+<%= row do %>
+  <% @topics.each do |topic| %>
+    <%= col(3) do %>
+      <% if @targetable %>
+        <%= big_link topic.name, wiz_ticket_path(topic_id: topic.id, targetable_type: params[:targetable_type], targetable: params[:targetable]), 'info', topic.icon %>
+      <% else %>
+        <%= big_link topic.name, wiz_target_path(topic_id: topic.id, targetable_type: params[:targetable_type]), 'info', topic.icon %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
