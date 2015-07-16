@@ -1,0 +1,29 @@
+<h1>Mass Borrow Tool</h1>
+
+<%= row do %>
+  <%= col 5 do %>
+    <%= form_tag checkout_tool_path, remote: true, class: 'form-horizontal' do %>
+      <div class="form-group">
+        <%= label_tag :asset_tag, "Asset Tag #", class: 'col-sm-4' %>
+        <%= text_field_tag :asset_tag, nil, class: 'form-control col-sm-8 typeahead-assets' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :user_stn, "STN/Student ID #", class: 'col-sm-4' %>
+        <%= text_field_tag :user_stn, nil, class: 'form-control col-sm-8 typeahead-stns' %>
+      </div>
+
+      <%= submit_tag "Go", class: 'btn btn-block btn-success' %>
+    <% end %>
+  <% end %>
+  <%= col 7 do %>
+    <h2>Last Checkout</h2>
+    <dl>
+      <dt>User: </dt>
+      <dd id="last-user-link">...</dd>
+      <dt>Asset: </dt>
+      <dd id="last-asset-link">...</dd>
+    </dl>
+    <%= link_to "Reprint Last Paperwork Set", '#', class: 'btn btn-warning', id: 'reprint-button', target: '_blank' %>
+  <% end %>
+<% end %>

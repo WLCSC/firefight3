@@ -1,0 +1,121 @@
+<h1>STUDENT TECHNOLOGY - CHECK IN/OUT FORM</h1>
+<h2>West Lafayette Jr/Sr High School</h2>
+
+<table>
+  <tr>
+    <td><strong>Student Name</strong></td>
+    <td><strong>Student ID#</strong></td>
+    <td><strong>Grad Year</strong></td>
+    <td><strong>Asset Tag#</strong></td>
+    <td><strong>Asset Name</strong></td>
+  </tr>
+  <tr>
+    <td><%= @user.nice_name %></td>
+    <td><%= @user.postofficebox %></td>
+    <td>20<%= @user.description.gsub('S','') %></td>
+    <td><%= @asset.tag %></td>
+    <td><%= @asset.name %></td>
+  </tr>
+</table>
+
+<br/>
+
+<table class="check-table">
+  <thead>
+    <tr>
+      <th width="10%" rowspan="2">Component</th>
+      <th colspan="3">IN</th>
+      <th colspan="3">OUT</th>
+    </tr>
+    <tr>
+      <th width="5%">OK</th>
+      <th width="5%">Not OK</th>
+      <th width="35%">Notes</th>
+      <th width="5%">OK</th>
+      <th width="5%">Not OK</th>
+      <th width="35%">Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="7" class="span-head"><strong>Accessories</td>
+    </tr>
+    <tr>
+      <td>Case</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>Charger</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td colspan="7" class="span-head"><strong>Exterior</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>Optical Drive</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td colspan="7" class="span-head"><strong>Power</td>
+    </tr>
+    <tr>
+      <td>Battery</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>Power Button</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td colspan="7" class="span-head"><strong>Inputs</td>
+    </tr>
+    <tr>
+      <td>Keyboard</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>Trackpad</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td colspan="7" class="span-head"><strong>Screen</td>
+    </tr>
+    <tr>
+      <td>LCD Panel</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>Hinges</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td colspan="7" class="span-head"><strong>Internals</td>
+    </tr>
+    <tr>
+      <td>OS Boots</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td colspan="7" class="span-divide"><strong>Signatures</td>
+    </tr>
+    <tr>
+      <td>Tech Signature</td>
+      <td colspan="3"></td>
+      <td colspan="3"></td>
+    </tr>
+    <tr>
+      <td>Student Signature</td>
+      <td colspan="3"></td>
+      <td colspan="3"></td>
+    </tr>
+    <tr>
+      <td>Date</td>
+      <td colspan="3"></td>
+      <td colspan="3"></td>
+    </tr>
+  </tbody>
+</table>

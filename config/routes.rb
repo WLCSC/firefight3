@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  get 'tools/' => 'tools#index', as: :tools
+  post 'tools/checkin', as: :checkin_tool
+  post 'tools/checkout', as: :checkout_tool
+  get 'tools/borrow', as: :borrow_tool
+  get 'tools/return', as: :return_tool
+  get 'tools/print_form', as: :print_form_tool
+
   get 'groups/:id' => 'groups#show', as: :group
 
   get 'ticketwiz/topic', as: 'wiz_topic'
@@ -10,11 +17,10 @@ Rails.application.routes.draw do
   get 'users/:id' => 'users#show', as: :user
   post 'users/assign', as: :assign_user
 
-  ['category', 'manufacturer', 'asset', 'listable', 'user', 'group', 'building', 'service', 'room', 'model'].each do |l|
+  ['category', 'manufacturer', 'asset', 'listable', 'user', 'group', 'building', 'service', 'room', 'model', 'stn'].each do |l|
     get "typeahead/#{l.pluralize}/:query" => "typeahead##{l.pluralize}"
     get "typeahead/#{l.pluralize}/" => "typeahead##{l.pluralize}"
   end
-
 
   post 'session/create', as: :login
   get 'session/destroy', as: :logout
@@ -26,6 +32,7 @@ Rails.application.routes.draw do
   end
   resources :assets do
     post 'reassign', on: :member
+    get 'ping', on: :member
   end
   resources :consumables
   resources :models

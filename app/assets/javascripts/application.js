@@ -19,7 +19,7 @@
 
 function flash(message, klass) {
   row = $('.flash-container');
-  row.append($('<div class="alert fade in alert-' + klass + '"><button class="close" data-dismiss="alert">&times;</button>' + message + '</div>').hide().fadeIn(1000));
+  row.append($('<div class="alert alert-' + klass + '"><button class="close" data-dismiss="alert">&times;</button>' + message + '</div>').hide().fadeIn(500));
 }
 
 function setupTypeahead(klass, url) {
@@ -50,7 +50,7 @@ function setupTypeahead(klass, url) {
 }
 
 $(function() {
-  $.each(['categories', 'manufacturers', 'assets', 'listables', 'users', 'groups', 'buildings', 'services', 'rooms', 'models'], function(ctr, x) {
+  $.each(['categories', 'manufacturers', 'assets', 'listables', 'users', 'groups', 'buildings', 'services', 'rooms', 'models', 'stns'], function(ctr, x) {
     setupTypeahead(x, BASE_URL + 'typeahead/' + x);
   });
 });

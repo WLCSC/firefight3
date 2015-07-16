@@ -1,5 +1,7 @@
+require 'net/ping/external'
+
 class AssetsController < ApplicationController
-  before_action :set_asset, only: [:show, :edit, :update, :destroy, :reassign]
+  before_action :set_asset, only: [:show, :edit, :update, :destroy, :reassign, :ping]
   before_action :check_for_user, only: [:show, :index]
   before_action :check_for_admin, except: [:show, :index]
 
@@ -87,6 +89,10 @@ class AssetsController < ApplicationController
     end
     @asset.save
     redirect_to @asset
+  end
+
+  def ping
+    @success = @asset.ping
   end
 
   private

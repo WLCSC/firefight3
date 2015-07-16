@@ -38,4 +38,8 @@ class TypeaheadController < ApplicationController
   def rooms
     render json: Room.where('name ilike ?', "%#{params[:query]}%").map{|c| {name: c.nice_name}}
   end
+
+  def stns
+    render json: User.find(:all, filter: {postofficebox: "*#{params[:query] || ''}*"}).map{|u| {name: u.postofficebox}}
+  end
 end

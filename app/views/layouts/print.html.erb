@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firefight3</title>
+  <%= stylesheet_link_tag 'print', media: 'print' %>
+    <%= javascript_include_tag 'application'  %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+    var BASE_URL = '<%= root_url %>';
+    window.onload = function() {
+      window.print();
+    };
+
+    function afterPrint() {
+      window.close();
+    }
+
+    if ('matchMedia' in window) {
+    // Chrome, Firefox, and IE 10 support mediaMatch listeners
+    window.matchMedia('print').addListener(function(media) {
+        if (media.matches) {
+            beforePrint();
+        } else {
+            // Fires immediately, so wait for the first mouse movement
+            $(document).one('mouseover', afterPrint);
+        }
+    });
+} else {
+    // IE and Firefox fire before/after events
+    $(window).on('afterprint', afterPrint);
+}
+
+
+
+
+  </script>
+</head>
+<body>
+<div class="container" id="main">
+  <%= yield %>
+</div>
+
+</body>
+</html>

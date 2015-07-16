@@ -1,0 +1,9 @@
+<% if @success %>
+  $('#btn-ping').addClass('btn-success').removeClass('btn-default').html('OK');
+<% else %>
+  <% if @success == false %>
+    $('#btn-ping').addClass('btn-danger').removeClass('btn-default').html('Not Found');
+  <% else %>
+    $('#btn-ping').addClass('btn-info').removeClass('btn-default').html('No DNS');
+  <% end %>
+<% end %>

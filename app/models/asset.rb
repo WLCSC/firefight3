@@ -22,6 +22,14 @@ class Asset < ActiveRecord::Base
     end
   end
 
+  def ping
+    if name && c = Computer.find(:first, name)
+      c.ping
+    else
+      nil
+    end
+  end
+
   def targetable= t
       self[:targetable_type] = t.class.to_s
       self[:targetable_id] = t.try(:samaccountname) || t.id

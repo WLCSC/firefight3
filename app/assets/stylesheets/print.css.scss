@@ -1,0 +1,62 @@
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$font-family-serif: 'Merriweather', serif;
+$font-family-monospace: 'Insonsolata', 'Consolas', monospace;
+
+@media print {
+  @page {
+    margin: 0.5in;
+  }
+
+  body {
+    font-family: $font-family-serif;
+    font-size: 10pt;
+    line-height: 1.1;
+  }
+
+  h1 {
+    font-size: 16pt;
+    text-align: center;
+    margin: 0px;
+    font-family: $font-family-sans-serif;
+  }
+
+  h2 {
+    font-size: 14pt;
+    text-align: center;
+    color: #444;
+    margin: 0px;
+    margin: 0.4em 0em;
+    font-family: $font-family-sans-serif;
+  }
+
+  table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+
+    td, th {
+      border: thin solid #222;
+      padding: 4px;
+    }
+  }
+
+  .check-table{
+     td {
+       height: 2.4em;
+     }
+
+     td.span-head {
+       height: auto;
+       font-size: 12pt;
+       text-align: left;
+       padding-left: 3em;
+     }
+
+     td.span-divide {
+       height: auto;
+       font-size: 8pt;
+       color: white;
+       background-color: black;
+     }
+  }
+}

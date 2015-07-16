@@ -1,0 +1,10 @@
+<h1>Admin Tools</h1>
+
+<%= row do %>
+  <%= col 3 do %>
+    <%= big_link "Mass Asset Borrow", borrow_tool_path, 'info', 'sign-out' %>
+  <% end %>
+  <%= col 3 do %>
+    <%= big_link "Mass Asset Return", return_tool_path, 'info', 'sign-in' %>
+  <% end %>
+<% end %>

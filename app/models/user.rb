@@ -2,6 +2,12 @@ require 'set'
 class User < ActiveLdap::Base
   ldap_mapping dn_attribute: 'sAMAccountName', classes: ['top', 'organizationalPerson', 'person', 'user'], excluded_classes: ['computer'], prefix: '', scope: :sub
 
+  class << self
+    def find_by_stn stn
+      find(:first, filter: {postofficebox: stn})
+    end
+  end
+
   def nice_name
     begin
     givenName + ' ' + sn

@@ -22,7 +22,12 @@
 <% end %>
 <%= row do %>
   <%= col(4) do %>
-    <p><strong>Name:</strong> <%= @asset.name %></p>
+    <p>
+      <strong>Name:</strong> <%= @asset.name %>
+      <% if @asset.name %>
+        <%= link_to "Ping", ping_asset_path(@asset), class: 'btn btn-default btn-sm', remote: true, id: 'btn-ping' %>
+      <% end %>
+    </p>
   <% end %>
   <%= col(4) do %>
     <p><strong>Purchase:</strong> <%= nice_date @asset.purchase %></p>
