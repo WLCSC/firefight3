@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714143605) do
+ActiveRecord::Schema.define(version: 20150716165234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,9 @@ ActiveRecord::Schema.define(version: 20150714143605) do
     t.string   "barcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "target"
+    t.integer  "hard"
+    t.integer  "soft"
   end
 
   add_index "consumables", ["barcode"], name: "index_consumables_on_barcode", unique: true, using: :btree
@@ -268,6 +271,7 @@ ActiveRecord::Schema.define(version: 20150714143605) do
     t.string   "attachable_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "user_sid"
   end
 
   add_index "uses", ["consumable_id"], name: "index_uses_on_consumable_id", using: :btree

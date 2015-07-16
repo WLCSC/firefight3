@@ -123,6 +123,21 @@ class AttachableFactory
           ticket.save
           flash[:notice] = "OK"
         end
+
+      when 'Use Consumable'
+        @room = TargetableFinder.call 'Room', params[:room_name]
+        @consumable = Consumable.find_by_short(params[:consumable_short])
+        Use.create(room_id: @room.id, consumable_id: @consumable.id, attachable_type: "Ticket", attachable_id: ticket.id, user_sid: user.samaccountname)
+        @stock = Stock.find_or_create_by(consumable_id: @consumable.id, room_id: @room.id) do |s|
+          s.count = 0
+        end
+        @stock.count -= 1
+        @stock.save
+        if params[:complete]
+          ticket.status = 1
+          ticket.save
+        end
+        flash[:notice] = "OK"
       end
 
       flash

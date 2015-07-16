@@ -1,4 +1,4 @@
-flash("Checked out <%= @asset.tag %> to <%= @user.nice_name %>", 'success');
+flash("Checked out <%= @asset.tag %> to <%= @user.nice_name %>.", 'success');
 $('#last-user-link').html('<%= link_to @user.nice_name, user_path(@user.samaccountname) %>');
 $('#last-asset-link').html('<%= link_to @asset.tag, @asset %>');
 $('#reprint-button').attr('href','<%= print_form_tool_url(asset_id: @asset.id, user_sid: @user.samaccountname) %>');

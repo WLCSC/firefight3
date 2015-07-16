@@ -29,6 +29,38 @@ class Ticket < ActiveRecord::Base
     "##{id}"
   end
 
+  def primary_room
+    if k = attachables.keep_if{|k| k.is_a? Room}.first
+      return k
+    else
+      if a = attachables.keep_if{|k| k.is_a? Asset}.first
+        if a.targetable.is_a? Room
+          return a.targetable
+        else
+          nil
+        end
+      else
+        nil
+      end
+    end
+  end
+
+  def primary_building
+    if primary_room
+      primary_room.building
+    else
+      if k = attachables.keep_if{|b| b.is_a? Building}.first
+        return k
+      else
+        if submitter.buildings.count == 1
+          return submitter.buildings.first
+        else
+          nil
+        end
+      end
+    end
+  end
+
   def attachables
     [Comment, Attachment, Alert, Use].map do |klass|
       klass.where(attachable_id: id, attachable_type: 'Ticket')

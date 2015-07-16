@@ -3,6 +3,19 @@ class ToolsController < ApplicationController
   end
 
   def checkin
+    @asset = Asset.find_by_tag(params[:asset_tag])
+    @room = TargetableFinder.call 'Room',params[:room_name]
+    if @asset
+      if @room
+        @previous = @asset.targetable
+        @asset.targetable = @room
+        @asset.save
+      else
+        render js: 'flash("Invalid Room!!", "danger");'
+      end
+    else
+        render js: 'flash("Invalid asset!!", "danger");'
+    end
   end
 
   def checkout

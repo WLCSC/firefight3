@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :set_room, only: [:show, :edit, :update, :destroy, :stock, :restock]
   before_action :set_building
   before_action :check_for_user, only: [:show, :index]
   before_action :check_for_admin, except: [:show, :index]
@@ -62,6 +62,29 @@ class RoomsController < ApplicationController
       format.html { redirect_to rooms_url, notice: 'Room was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def stock
+    @stocks = @room.stocks
+  end
+
+  def restock
+    @consumable = Consumable.find_by_short(params[:consumable_short])
+    @stock = Stock.find_or_create_by(consumable_id: @consumable.id, room_id: @room.id) do |s|
+      s.count = 0
+    end
+
+    case params[:modify]
+    when 'set'
+      @stock.count = params[:count].to_i
+    when 'add'
+      @stock.count += params[:count].to_i
+    when 'remove'
+      @stock.count -= params[:count].to_i
+    end
+
+    @stock.save
+    redirect_to stock_building_room_path(@building, @room)
   end
 
   private

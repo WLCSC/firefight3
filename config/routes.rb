@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get 'users/:id' => 'users#show', as: :user
   post 'users/assign', as: :assign_user
 
-  ['category', 'manufacturer', 'asset', 'listable', 'user', 'group', 'building', 'service', 'room', 'model', 'stn'].each do |l|
+  ['category', 'manufacturer', 'asset', 'listable', 'user', 'group', 'building', 'service', 'room', 'model', 'stn', 'consumable'].each do |l|
     get "typeahead/#{l.pluralize}/:query" => "typeahead##{l.pluralize}"
     get "typeahead/#{l.pluralize}/" => "typeahead##{l.pluralize}"
   end
@@ -38,7 +38,10 @@ Rails.application.routes.draw do
   resources :models
   resources :buildings do
     get 'users', on: :member
-    resources :rooms
+    resources :rooms do
+      get 'stock', on: :member
+      post 'restock', on: :member
+    end
   end
   resources :tickets do
     post 'attach', on: :member

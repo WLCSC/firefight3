@@ -1,2 +1,28 @@
-<h1>Tools#return</h1>
-<p>Find me in app/views/tools/return.html.erb</p>
+<h1>Mass Return Tool</h1>
+
+<%= row do %>
+  <%= col 5 do %>
+    <%= form_tag checkin_tool_path, remote: true, class: 'form-horizontal' do %>
+      <div class="form-group">
+        <%= label_tag :asset_tag, "Asset Tag #", class: 'col-sm-4' %>
+        <%= text_field_tag :asset_tag, nil, class: 'form-control col-sm-8 typeahead-assets' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :room_name, "Room to Return To", class: 'col-sm-4' %>
+        <%= text_field_tag :room_name, nil, class: 'form-control col-sm-8 typeahead-rooms' %>
+      </div>
+
+      <%= submit_tag "Go", class: 'btn btn-block btn-success' %>
+    <% end %>
+  <% end %>
+  <%= col 7 do %>
+    <h2>Last Checkin</h2>
+    <dl>
+      <dt>User: </dt>
+      <dd id="last-user-link">...</dd>
+      <dt>Asset: </dt>
+      <dd id="last-asset-link">...</dd>
+    </dl>
+  <% end %>
+<% end %>

@@ -1,0 +1,6 @@
+<div class="panel panel-info">
+  <div class="panel-heading">System wrote at <%= nice_datetime a.created_at %></div>
+  <div class="panel-body">
+    <p><%= a.user.nice_name %> used <%= a.consumable.name %> from <%= a.room.nice_name %>.</p>
+  </div>
+</div>

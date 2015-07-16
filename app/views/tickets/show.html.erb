@@ -184,7 +184,39 @@
             <% end %>
           <% end %>
           <%= col(3) do %>
-            <%= big_link('Use Consumable', {}, 'info', 'barcode') %>
+            <%= big_link('Use Consumable', {toggle: 'modal', target: '#modal-use-consumable'}, 'info', 'barcode') %>
+            <%= modal 'modal-use-consumable', 'Use Consumable' do %>
+              <div class="container-fluid">
+                <%= form_tag attach_ticket_path do %>
+                  <% row do %>
+                    <%= col 4 do %>
+                      <div class="form-group">
+                        <%= label_tag :consumable_short, 'Consumable Item' %>
+                        <%= text_field_tag :consumable_short, nil, class: 'form-control typeahead-consumables' %>
+                      </div>
+                    <% end %>
+                    <%= col 4 do %>
+                      <% if @ticket.primary_building && @ticket.primary_building.storeroom %>
+                        <p>Taking from <%= @ticket.primary_building.storeroom.nice_name %></p>
+                        <%= hidden_field_tag :room_name, @ticket.primary_building.storeroom.nice_name %>
+                      <% else %>
+                        <div class="form-group">
+                          <%= label_tag :room_name, "Room to Pull From" %>
+                          <%= text_field_tag :room_name, nil, class: 'form-control typeahead-rooms' %>
+                        </div>
+                      <% end %>
+                      <div class="form-group">
+                        <%= label_tag :complete, "Mark ticket as complete?" %>
+                        <%= check_box_tag :complete %>
+                      </div>
+                    <% end %>
+                    <%= col 4 do %>
+                      <%= submit_tag 'Use Consumable', class: 'btn btn-success btn-xl' %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
           <%= col(3) do %>
             <%= big_link('Tag Something', {toggle: 'modal', target: '#modal-tag-something'}, 'info', 'tag') %>

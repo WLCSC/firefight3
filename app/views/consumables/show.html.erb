@@ -1,19 +1,45 @@
-<p id="notice"><%= notice %></p>
+<%= action_row big_link("Back to Consumables List", consumables_path, 'info', 'barcode'), big_link("Edit Consumable", edit_consumable_path(@consumable), 'warning', 'edit') %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @consumable.name %>
-</p>
+<h1><%= @consumable.name %> / <%= @consumable.short %></h1>
 
-<p>
-  <strong>Short:</strong>
-  <%= @consumable.short %>
-</p>
+<% if @consumable.count <= @consumable.hard %>
+  <%= row do %>
+    <div class="col-md-4 col-md-offset-4">
+      <div class="alert alert-danger">
+        <p>Hey, you really need to order more of this!!</p>
+      </div>
+    </div>
+  <% end %>
+<% elsif @consumable.count <= @consumable.soft %>
+  <%= row do %>
+    <div class="col-md-4 col-md-offset-4">
+      <div class="alert alert-warning">
+        <p>Hey, you should probably order more of this.</p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
 
-<p>
-  <strong>Barcode:</strong>
-  <%= @consumable.barcode %>
-</p>
-
-<%= link_to 'Edit', edit_consumable_path(@consumable) %> |
-<%= link_to 'Back', consumables_path %>
+<h2>Inventory</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Building</th>
+      <th>Room</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2">Total Count</td>
+      <td><%= @consumable.count %></td>
+    </tr>
+    <% @consumable.stocks.each do |s| %>
+      <tr>
+        <td><%= s.room.building.name %></td>
+        <td><%= s.room.name %></td>
+        <td><%= s.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -50,7 +50,7 @@ function setupTypeahead(klass, url) {
 }
 
 $(function() {
-  $.each(['categories', 'manufacturers', 'assets', 'listables', 'users', 'groups', 'buildings', 'services', 'rooms', 'models', 'stns'], function(ctr, x) {
+  $.each(['categories', 'manufacturers', 'assets', 'listables', 'users', 'groups', 'buildings', 'services', 'rooms', 'models', 'stns', 'consumables'], function(ctr, x) {
     setupTypeahead(x, BASE_URL + 'typeahead/' + x);
   });
 });

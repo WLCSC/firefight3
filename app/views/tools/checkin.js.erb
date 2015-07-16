@@ -1,2 +1,4 @@
-<h1>Tools#checkin</h1>
-<p>Find me in app/views/tools/checkin.html.erb</p>
+flash("Checked in <%= @asset.tag %>.", 'success');
+$('#last-user-link').html('<%= link_to @previous.nice_name, user_path(@previous.samaccountname) %>');
+$('#last-asset-link').html('<%= link_to @asset.tag, @asset %>');
+$('#room_name').val('<%= @room.nice_name %>')

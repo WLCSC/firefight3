@@ -1,29 +1,16 @@
-<%= form_for(@consumable) do |f| %>
-  <% if @consumable.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@consumable.errors.count, "error") %> prohibited this consumable from being saved:</h2>
+<%= semantic_form_for(@consumable) do |f| %>
+<%= f.semantic_errors %>
 
-      <ul>
-      <% @consumable.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= f.inputs do %>
+  <%= f.input :name, required: true %>
+  <%= f.input :short, required: true %>
+  <%= f.input :barcode, required: true %>
+  <%= f.input :soft, required: true, label: "Soft Threshold" %>
+  <%= f.input :hard, required: true, label: "Hard Threshold" %>
+  <%= f.input :target, required: true, label: "Order Target" %>
+<% end %>
+
+<%= f.actions do %>
+    <%= f.action :submit, button_html: { disable_with: "Wait...", class: 'btn btn-primary btn-lg' } %>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :short %><br>
-    <%= f.text_field :short %>
-  </div>
-  <div class="field">
-    <%= f.label :barcode %><br>
-    <%= f.text_field :barcode %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

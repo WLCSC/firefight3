@@ -9,6 +9,8 @@
 
 <h1><%= @building.name %></h1>
 
+<p><strong>Storeroom: </strong> <%= @building.storeroom.name %></p>
+
 <h2>Rooms</h2>
 <%= row do %>
   <% @building.rooms.each do |room| %>

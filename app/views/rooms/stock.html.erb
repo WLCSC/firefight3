@@ -1,0 +1,59 @@
+<%= action_row big_link('Back to Room', building_room_path(@building, @room), 'info', 'square-o'),
+                big_link('Back to Building', @building, 'primary', 'building')
+                 %>
+<h1>Inventory for <%= @room.nice_name %></h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Count</th>
+      <th>Global Count</th>
+      <th>Thresholds</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stocks.each do |stock| %>
+      <tr>
+        <td>
+          <%= link_to stock.consumable do %>
+            <%= stock.consumable.name %> / <%= stock.consumable.short %>
+          <% end %>
+        </td>
+        <td><%= stock.count %></td>
+        <td>
+          <% if stock.consumable.count <= stock.consumable.hard %>
+            <div class="label label-danger">
+          <% elsif stock.consumable.count <= stock.consumable.soft %>
+            <div class="label label-warning">
+          <% else %>
+            <div class="label label-info">
+          <% end %>
+            <%= stock.consumable.count %>
+          </div>
+        </td>
+        <td>
+          <%= stock.consumable.soft %> / <%= stock.consumable.hard %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Modify Inventory</h2>
+<%= form_tag restock_building_room_path(@building, @room) do %>
+  <div class="form-group">
+    <%= label_tag :consumable_short, 'Consumable' %>
+    <%= text_field_tag :consumable_short, nil, class: 'form-control typeahead-consumables' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :modify %>
+    <%= select_tag :modify, options_for_select({'Set Count' => 'set', 'Add' => 'add', 'Remove' => 'remove'}) %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :count %>
+    <%= number_field_tag :count %>
+  </div>
+  <%= submit_tag "Update Inventory", class: 'btn btn-success btn-lg' %>
+<% end %>

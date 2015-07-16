@@ -42,4 +42,8 @@ class TypeaheadController < ApplicationController
   def stns
     render json: User.find(:all, filter: {postofficebox: "*#{params[:query] || ''}*"}).map{|u| {name: u.postofficebox}}
   end
+
+  def consumables
+    render json: Consumable.where('short ilike ?', "%#{params[:query]}%").map{|c| {name: c.short}}
+  end
 end

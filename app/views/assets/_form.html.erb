@@ -4,7 +4,7 @@
     <%= f.input :tag, required: true %>
     <%= f.input :name %>
     <%= f.input :serial, required: true %>
-    <%= f.input :model_n, as: :string, input_html: {class: 'typeahead-models'} %>
+    <%= f.input :model_n, label: 'Model', input_html: {class: 'typeahead-models'} %>
     <%= f.input :purchase, label: 'Purchase Date' %>
     <%= f.input :vendor, input_html: {class: 'typeahead-vendors'} %>
     <%= f.input :cost %>
