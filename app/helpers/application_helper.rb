@@ -61,6 +61,10 @@ module ApplicationHelper
       asset_path(t)
     when Service
       service_path(t)
+    when Topic
+      topic_path(t)
+    when Consumable
+      consumable_path(t)
     end
   end
 

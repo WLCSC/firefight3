@@ -1,0 +1,5 @@
+flash("Checked in <%= @consumable.name %>.", 'success');
+$('#last-scan-link').html('<%= link_to @consumable.nice_name, @consumable %>');
+$('#last-scan-count').html('<%= @consumable.count %>');
+$('#room_name').val('<%= @room.nice_name %>')
+$('#barcode').val('').focus();

@@ -22,6 +22,10 @@ class TargetableFinder
         Asset.where('tag ILIKE ?', id).first
       when 'service'
         Service.where('name ILIKE ?', id).first
+      when 'topic'
+        Topic.find(id)
+      when 'consumable'
+        Consumable.where('short ILIKE ?', id).first
       else
         nil
       end

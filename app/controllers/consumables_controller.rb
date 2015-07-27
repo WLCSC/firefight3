@@ -1,5 +1,6 @@
 class ConsumablesController < ApplicationController
   before_action :set_consumable, only: [:show, :edit, :update, :destroy]
+  before_action :check_for_admin
 
   # GET /consumables
   # GET /consumables.json
@@ -59,6 +60,10 @@ class ConsumablesController < ApplicationController
       format.html { redirect_to consumables_url, notice: 'Consumable was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def order
+    @consumables = Consumable.all
   end
 
   private

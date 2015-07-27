@@ -1,15 +1,17 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
+  before_action :check_for_user
 
   # GET /subscriptions
   # GET /subscriptions.json
   def index
-    @subscriptions = Subscription.all
+    @subscriptions = (params[:sid].present? ? User.find(params[:sid]).subscriptions : current_user.my_subscriptions)
   end
 
   # GET /subscriptions/1
   # GET /subscriptions/1.json
   def show
+    redirect_to subscriptions_path(sid: @subscription.user_sid)
   end
 
   # GET /subscriptions/new
@@ -25,10 +27,14 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions.json
   def create
     @subscription = Subscription.new(subscription_params)
+    ttype = params[:commit].match(/Subscribe to (\w+)/)[1]
+    subs = TargetableFinder.call ttype, params[:sub_id].keep_if{|p| p.present?}.first
+    @subscription.subscribable_type = subs.class.to_s
+    @subscription.subscribable_id = subs.try(:samaccountname) || subs.id
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
+        format.html { redirect_to subscriptions_path(sid: @subscription.user_sid), notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else
         format.html { render :new }
@@ -42,7 +48,7 @@ class SubscriptionsController < ApplicationController
   def update
     respond_to do |format|
       if @subscription.update(subscription_params)
-        format.html { redirect_to @subscription, notice: 'Subscription was successfully updated.' }
+        format.html { redirect_to subscriptions_path(sid: @subscription.user_sid), notice: 'Subscription was successfully updated.' }
         format.json { render :show, status: :ok, location: @subscription }
       else
         format.html { render :edit }

@@ -10,19 +10,26 @@ class AttachableFactory
         if ticket.save
           ticket.comment! "#{user.nice_name} changed the status of this ticket from #{Ticket::STATUS_CODES[old]} to #{Ticket::STATUS_CODES[ticket.status]}.", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Add Comment'
         ticket.comment! params[:content], user, params[:mod]
         flash[:notice] = "OK"
+        if params[:mod]
+          ticket.notify_mods
+        else
+          ticket.notify
+        end
 
       when 'Comment & Complete'
-        ticket.comment params[:content], user
+        ticket.comment! params[:content], user
         old = ticket.status
         ticket.status = 1
         if ticket.save
           ticket.comment! "#{user.nice_name} changed the status of this ticket from #{Ticket::STATUS_CODES[old]} to #{Ticket::STATUS_CODES[ticket.status]}.", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Change Topic'
@@ -31,6 +38,7 @@ class AttachableFactory
         if ticket.save
           ticket.comment! "#{user.nice_name} moved this ticket from #{old.name} to #{ticket.topic.name}.", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when /Tag (\w+)/
@@ -51,6 +59,7 @@ class AttachableFactory
         Target.create(ticket_id: ticket.id, targetable_type: r.class.to_s, targetable_id: r.try(:samaccountname) || r.id)
         ticket.comment! "#{user.nice_name} tagged #{r.nice_name} in this ticket.", nil
         flash[:notice] = "OK"
+        ticket.notify
 
       when 'Untag Object'
         t = Target.find(params[:target_id])
@@ -58,6 +67,7 @@ class AttachableFactory
         t.delete
         ticket.comment! "#{user.nice_name} removed #{tg.nice_name} from this ticket.", nil
         flash[:notice] = "OK"
+        ticket.notify
 
       when 'Assign Asset'
         asset = Asset.find_by_tag(params[:asset_tag])
@@ -67,6 +77,7 @@ class AttachableFactory
         if asset.save
           ticket.comment! "#{user.nice_name} assigned #{asset.nice_name} to #{asset.targetable.nice_name}.", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Assign User'
@@ -75,12 +86,15 @@ class AttachableFactory
           Target.create(ticket_id: ticket.id, targetable_type: 'User', targetable_id: m.user.samaccountname)
           ticket.comment! "#{user.nice_name} assigned #{m.user.nice_name} to this ticket.", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Add Attachment'
         a = Attachment.new(attachable_id: ticket.id, attachable_type: 'Ticket', file: params[:file], user_sid: user.samaccountname)
-        a.save
-        flash[:notice] = "OK"
+        if a.save
+          flash[:notice] = "OK"
+          ticket.notify
+        end
 
       when 'Unassign User'
         m = Mission.find(params[:mission_id])
@@ -88,6 +102,7 @@ class AttachableFactory
         m.delete
         ticket.comment! "#{user.nice_name} unassigned #{u.nice_name} from this ticket.", nil
         flash[:notice] = "OK"
+        ticket.notify
 
       when 'Update Service'
         s = Service.find(params[:service_id])
@@ -98,6 +113,7 @@ class AttachableFactory
           s.statuses.build(code: params[:code], note: params[:note]).save
           ticket.comment! "#{user.nice_name} updated #{s.nice_name} to #{Service::STATUS_CODES[s.code]}: #{s.note}", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Add Step'
@@ -105,6 +121,7 @@ class AttachableFactory
         if s.save
           ticket.comment! "#{user.nice_name} added a new step: #{s.content}.", nil
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Add Alert'
@@ -122,6 +139,7 @@ class AttachableFactory
         if a.save
           ticket.save
           flash[:notice] = "OK"
+          ticket.notify
         end
 
       when 'Use Consumable'
@@ -137,6 +155,7 @@ class AttachableFactory
           ticket.status = 1
           ticket.save
         end
+        ticket.notify
         flash[:notice] = "OK"
       end
 

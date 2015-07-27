@@ -1,0 +1,36 @@
+<p>Hello <%= @user.nice_name %>, </p>
+
+<p>Ticket #<%= @ticket.id %> has been updated.</p>
+
+<table>
+  <tr>
+    <td width="50%">
+      <dl>
+        <dt>Current Status:</dt>
+        <dd><%= Ticket::STATUS_CODES[@ticket.status] %></dd>
+        <dt>Topic:</dt>
+        <dd><%= @ticket.topic.name %></dd>
+        <dt>Submitted:</dt>
+        <dd><%= @ticket.created_at.try(:strftime, ("%l:%M %p %m-%d-%y")) %></dd>
+        <dt>Submitted By:</dt>
+        <dd><%= @ticket.submitter.nice_name %></dd>
+        <dt>Assigned To:</dt>
+        <dd>
+          <% if @ticket.missions.count > 0 %>
+            <%= @ticket.missions.map{|m| link_to m.user.nice_name, user_path(m.user.samaccountname)}.join(', ').html_safe %>
+          <% else %>
+            <i>Nobody!</i>
+          <% end %>
+        </dd><dt>Tagged: </dt>
+        <dd><%= @ticket.targetables.map{|t| t.nice_name}.join(', ') %></dd>
+      </dl>
+    </td>
+    <td>
+      <% @ticket.attachables.sort_by(&:created_at).each do |a| %>
+        <p><%= a.user ? a.user.nice_name : 'System' %> wrote at <%= a.created_at.try(:strftime, ("%l:%M %p %m-%d-%y")) %></p>
+        <p><%= a.content %></p>
+        <hr/>
+      <% end %>
+    </td>
+  </tr>
+</table>

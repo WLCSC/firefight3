@@ -8,4 +8,12 @@ class Consumable < ActiveRecord::Base
   def count
     stocks.sum(:count)
   end
+
+  def nice_name
+    "#{name}/#{short}"
+  end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
 end

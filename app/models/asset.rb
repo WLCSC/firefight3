@@ -38,4 +38,8 @@ class Asset < ActiveRecord::Base
   def nice_name
     name.present? ? name : "#"+tag
   end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
 end

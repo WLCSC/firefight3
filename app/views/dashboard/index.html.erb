@@ -1,5 +1,5 @@
 <% if current_user %>
-<%= action_row big_link("Submit Ticket", wiz_topic_path, 'primary', 'tag'), big_link("Your Tickets", tickets_path(user_sid: current_user.samaccountname), 'info', 'tags'), big_link('Ticket Finder', tickets_path, 'warning', 'search'), big_link('Service Info', services_path, 'success', 'dashboard') %>
+<%= action_row big_link("Submit Ticket", wiz_topic_path, 'primary', 'tag'), big_link('Ticket Finder', tickets_path, 'warning', 'search'), big_link("Your Subscriptions", subscriptions_path, 'info', 'send'), big_link('Service Info', services_path, 'success', 'dashboard') %>
 
 <% end %>
 <%= row do %>
@@ -37,6 +37,18 @@
         <p><strong>Everything's up and running!</strong></p>
         <p>...unless something's going on that we don't know about.  <% if current_user %>If there is, <%= link_to "fill out a ticket", wiz_topic_path(targetable_type: 'Service'), class: 'alert-link' %> and let us know.<% end %></p>
       </div>
+    <% end %>
+    <% if current_user %>
+    <h2>Email Subscriptions</h2>
+    <% if current_user.my_subscriptions.count > 0 %>
+      <% current_user.my_subscriptions.each do |s| %>
+        <%= link_to s.subscribable.nice_name, targetable_path(s.subscribable), class: 'btn btn-default' %>
+      <% end %>
+    <% else %>
+      <p>You don't have any subscriptions.  Subscribing to something will send you an email any time a ticket attached to that thing is filled out or updated, so you'll probably want to subscribe to your classroom(s) &amp; and any other areas you frequent.</p>
+    <% end %>
+    <br/>
+    <p><%= link_to "Add & Remove Subscriptions", subscriptions_path, class: 'btn btn-info' %></p>
     <% end %>
   <% end %>
 <% end %>

@@ -1,29 +1,17 @@
-<p id="notice"><%= notice %></p>
+<%= action_row big_link("Back to User Profile", user_path(params[:sid].present? ? params[:sid] : current_user.samaccountname), 'info', 'user'), big_link('Add New Subscription', new_subscription_path, 'primary', 'send') %>
 
-<h1>Listing Subscriptions</h1>
+<h1><%= params[:sid].present? ? User.find(params[:sid]).nice_name + "'s" : 'Your' %> Subscriptions</h1>
 
-<table>
-  <thead>
+<table class="table">
+  <% @subscriptions.in_groups_of(3).each do |g| %>
     <tr>
-      <th>User sid</th>
-      <th>Subscribable</th>
-      <th colspan="3"></th>
+      <% g.each do |s| %>
+        <td>
+          <% if s %>
+            <%= link_to fa_icon('bomb'), s, method: 'delete', data: {confirm: 'Are you sure you want to unsubscribe?'}, class: 'btn btn-mini btn-danger' %> &nbsp; <%= link_to s.subscribable.nice_name, targetable_path(s.subscribable) %>
+          <% end %>
+        </td>
+      <% end %>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @subscriptions.each do |subscription| %>
-      <tr>
-        <td><%= subscription.user_sid %></td>
-        <td><%= subscription.subscribable %></td>
-        <td><%= link_to 'Show', subscription %></td>
-        <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
-        <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+  <% end %>
 </table>
-
-<br>
-
-<%= link_to 'New Subscription', new_subscription_path %>

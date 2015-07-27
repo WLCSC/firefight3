@@ -20,4 +20,8 @@ class Attachment < ActiveRecord::Base
       nil
     end
   end
+
+  def content
+    file_file_name
+  end
 end

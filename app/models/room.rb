@@ -14,4 +14,8 @@ class Room < ActiveRecord::Base
   def assets
     Asset.where(targetable_type: 'Room', targetable_id: id)
   end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
 end

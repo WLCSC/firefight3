@@ -1,25 +1,63 @@
 <%= form_for(@subscription) do |f| %>
-  <% if @subscription.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
-
-      <ul>
-      <% @subscription.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <%= f.hidden_field :user_sid, value: (params[:sid] || current_user.samaccountname) %>
+  <%= row do %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Building</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-buildings' %>
+        <%= f.submit "Subscribe to Building", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Room</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-rooms' %>
+        <%= f.submit "Subscribe to Room", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Asset</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-assets' %>
+        <%= f.submit "Subscribe to Asset", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Service</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-services' %>
+        <%= f.submit "Subscribe to Service", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
   <% end %>
-
-  <div class="field">
-    <%= f.label :user_sid %><br>
-    <%= f.text_field :user_sid %>
-  </div>
-  <div class="field">
-    <%= f.label :subscribable_id %><br>
-    <%= f.text_field :subscribable_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= row do %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>User</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-users' %>
+        <%= f.submit "Subscribe to User", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Group</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-groups' %>
+        <%= f.submit "Subscribe to Group", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Consumable</h4>
+        <%= text_field_tag 'sub_id[]', nil, class: 'form-control typeahead-consumables' %>
+        <%= f.submit "Subscribe to Consumable", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+    <%= col 3 do %>
+      <div class="subscribe-box">
+        <h4>Topic</h4>
+        <%= select_tag 'sub_id[]', options_for_select( (params[:sid].present? ? User.find(params[:sid]) : current_user).read_topics.map{|t| [t.name, t.id]}), include_blank: true, class: 'form-control' %>
+        <%= f.submit "Subscribe to Topic", class: 'btn btn-block btn-success' %>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>

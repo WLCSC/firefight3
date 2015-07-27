@@ -82,4 +82,8 @@ class Service < ActiveRecord::Base
   def overridden?
     parent && (parent.overridden? || parent.status != 1) || false
   end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
 end

@@ -14,4 +14,8 @@ class Building < ActiveRecord::Base
   def nice_name
     name
   end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
 end

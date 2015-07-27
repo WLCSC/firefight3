@@ -90,4 +90,63 @@ class Ticket < ActiveRecord::Base
       submitter_sid = u.samaccountname
     end
   end
+
+  def notify_mods
+    topic.mods.each do |sid|
+      SubscriberNotifications.updated_ticket(id, sid).deliver_later
+    end
+  end
+
+  def notify
+    list = []
+    targetables.each do |t|
+      if t.is_a? Group
+        t.members.each do |m|
+          list << m.samaccountname
+        end
+      elsif t.is_a? User
+        list << t.samaccountname
+      elsif t.is_a? Room
+        t.assets.each do |a|
+          a.subscriptions.each do |s|
+            lsit << s.user_sid
+          end
+        end
+      end
+      t.subscriptions.each do |s|
+        list << s.user_sid
+      end
+    end
+    list.uniq.each do |sid|
+      SubscriberNotifications.updated_ticket(id, sid).deliver_later
+    end
+  end
+
+  def notify_all
+    list = []
+    topic.mods.each do |sid|
+      SubscriberNotifications.updated_ticket(id, sid).deliver_later
+    end
+    targetables.each do |t|
+      if t.is_a? Group
+        t.members.each do |m|
+          list << m.samaccountname
+        end
+      elsif t.is_a? User
+        list << t.samaccountname
+        elsif t.is_a? Room
+          t.assets.each do |a|
+            a.subscriptions.each do |s|
+              lsit << s.user_sid
+            end
+          end
+      end
+      t.subscriptions.each do |s|
+        list << s.user_sid
+      end
+    end
+    list.uniq.each do |sid|
+      SubscriberNotifications.updated_ticket(id, sid).deliver_later
+    end
+  end
 end

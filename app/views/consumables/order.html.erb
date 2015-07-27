@@ -1,0 +1,41 @@
+<%= action_row big_link('Back to Consumables List', consumables_path, 'info', 'barcode') %>
+
+<h1>Conumables to Order</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Thresholds</th>
+      <th>Target</th>
+      <th>Current Count</th>
+      <th>Order</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @consumables.each do |consumable| %>
+    <% if consumable.count <= consumable.soft %>
+        <tr>
+          <td>
+            <%= link_to consumable do %>
+              <%= consumable.name %>
+            <% end %>
+          </td>
+          <td>
+            <%= consumable.soft %> / <%= consumable.hard %>
+          </td>
+          <td>
+            <%= consumable.target %>
+          </td>
+          <td>
+              <%= consumable.count %>
+          </td>
+          <td>
+            <%= consumable.target - consumable.count %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

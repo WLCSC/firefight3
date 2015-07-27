@@ -4,6 +4,10 @@ class Topic < ActiveRecord::Base
   validates :name, presence: true
   validates :icon, presence: true, inclusion: FONT_AWESOME_ICONS
 
+  def nice_name
+    name
+  end
+
   def level_for user
     go = 0
     unless user.is_a? User
@@ -23,5 +27,17 @@ class Topic < ActiveRecord::Base
       end
     end
     go
+  end
+
+  def mods
+    list = []
+    permissions.where('level > 90').each do |p|
+      list += p.users.map(&:samaccountname)
+    end
+    list.uniq
+  end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
   end
 end

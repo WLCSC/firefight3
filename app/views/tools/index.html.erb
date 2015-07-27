@@ -1,4 +1,4 @@
-<h1>Admin Tools</h1>
+<h1>Admin/Kiosk Tools</h1>
 
 <%= row do %>
   <%= col 3 do %>
@@ -6,5 +6,11 @@
   <% end %>
   <%= col 3 do %>
     <%= big_link "Mass Asset Return", return_tool_path, 'info', 'sign-in' %>
+  <% end %>
+  <%= col 3 do %>
+    <%= big_link "Receive Consumables", receive_tool_path, 'info', 'barcode' %>
+  <% end %>
+  <%= col 3 do %>
+    <%= big_link "Quick Use Consumable", quick_use_tool_path, 'info', 'barcode' %>
   <% end %>
 <% end %>

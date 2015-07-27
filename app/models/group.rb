@@ -19,4 +19,8 @@ class Group < ActiveLdap::Base
     end
     list
   end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
 end

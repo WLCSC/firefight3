@@ -1,0 +1,17 @@
+Hello <%= @user.nice_name %>,
+
+Ticket #<%= @ticket.id %> has been updated.
+
+  Current Status: <%= Ticket::STATUS_CODES[@ticket.status] %></dd>
+  Topic: <%= @ticket.topic.name %></dd>
+  Submitted: <%= @ticket.created_at.try(:strftime, ("%l:%M %p %m-%d-%y")) %></dd>
+  Submitted By: <%= @ticket.submitter.nice_name %></dd>
+  Assigned To: <% if @ticket.missions.count > 0 %><%= @ticket.missions.map{|m| link_to m.user.nice_name, user_path(m.user.samaccountname)}.join(', ').html_safe %><% else %><i>Nobody!</i><% end %>
+  Tagged: <%= @ticket.targetables.map{|t| t.nice_name}.join(', ') %>
+
+
+<% @ticket.attachables.sort_by(&:created_at).each do |a| %>
+  <%= a.user ? a.user.nice_name : 'System' %> wrote at <%= a.created_at.try(:strftime, ("%l:%M %p %m-%d-%y")) %>
+
+  <%= a.content %>
+<% end %>

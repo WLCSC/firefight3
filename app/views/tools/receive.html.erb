@@ -1,0 +1,46 @@
+<h1>Receive Consumables Tool</h1>
+
+<%= row do %>
+  <%= col 5 do %>
+    <%= form_tag receive_post_tool_path, remote: true, class: 'form-horizontal', id: 'scan-form' do %>
+      <div class="form-group">
+        <%= label_tag :room_name, "Room", class: 'col-sm-4' %>
+        <%= text_field_tag :room_name, nil, class: 'form-control col-sm-8 typeahead-rooms' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :barcode, "Barcode", class: 'col-sm-4' %>
+        <%= text_field_tag :barcode, nil, class: 'form-control col-sm-8' %>
+      </div>
+
+      <%= submit_tag "Go", class: 'btn btn-block btn-success', id: 'go-button' %>
+    <% end %>
+  <% end %>
+  <%= col 7 do %>
+    <h2>Last Scan</h2>
+    <dl>
+      <dt>Consumable: </dt>
+      <dd id="last-scan-link">...</dd>
+      <dt>Count: </dt>
+      <dd id="last-scan-count">...</dd>
+    </dl>
+  <% end %>
+<% end %>
+
+<%= javascript_tag do %>
+var go = true;
+$(function() {
+  $('#go-button').focus(function() {
+    if(go) {
+      $('#scan-form').trigger('submit.rails');
+      go = false;
+    }
+  });
+
+  $('#go-button').blur(function() {
+    go = true;
+  });
+
+  $('#barcode').focus();
+});
+<% end %>

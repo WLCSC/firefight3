@@ -2,16 +2,16 @@
                 big_link("Tickets for this Room", tickets_path(associated_room: @room.nice_name), 'danger', 'tags'),
                 big_link('Back to Building', @building, 'primary', 'building'),
                 big_link('Back to Rooms', building_rooms_path(@building), 'info', 'square-o'),
-                (current_admin ? big_link("Consumable Inventory", stock_building_room_path(@building, @room), 'info', 'barcode') : nil),
+                (current_admin ? big_link("Inventory", stock_building_room_path(@building, @room), 'info', 'barcode') : nil),
                 (current_admin ? big_link("Edit Room", edit_building_room_path(@building, @room), 'warning', 'edit') : nil)
                  %>
 
 <h1><%= @room.nice_name %></h1>
+
+<p><%= @room.description %></p>
 
 <h2>Assets in this Room</h2>
 
 <% @room.assets.each do |a| %>
   <%= link_to a.tag, a, class: 'btn btn-info' %>
 <% end %>
-
-<%= link_to "Inventory", stock_building_room_path(@building, @room) %>

@@ -80,6 +80,14 @@ class User < ActiveLdap::Base
     Ticket.where(id: Target.where(targetable_type: 'User', targetable_id: samaccountname).map(&:ticket_id))
   end
 
+  def my_subscriptions
+    Subscription.where(user_sid: samaccountname)
+  end
+
+  def subscriptions
+    Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
+  end
+
   def User.authenticate(sid, password)
     user = User.find(sid)
     user.bind(password)

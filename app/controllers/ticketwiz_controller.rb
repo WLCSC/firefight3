@@ -36,6 +36,7 @@ class TicketwizController < ApplicationController
       @ticket.due = DateTime.new *params[:due].map{|k,v| v.to_i}
     end
     if @ticket.save
+      @ticket.notify_all
       redirect_to @ticket
     else
       @ticket.errors.full_messages.each do |e|

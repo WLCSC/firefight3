@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   get 'tools/borrow', as: :borrow_tool
   get 'tools/return', as: :return_tool
   get 'tools/print_form', as: :print_form_tool
+  get 'tools/receive', as: :receive_tool
+  post 'tools/receive' => 'tools#receive_post', as: :receive_post_tool
+  get 'tools/use', as: :quick_use_tool
+  post 'tools/use', as: :quick_post_tool
 
   get 'groups/:id' => 'groups#show', as: :group
 
@@ -34,7 +38,9 @@ Rails.application.routes.draw do
     post 'reassign', on: :member
     get 'ping', on: :member
   end
-  resources :consumables
+  resources :consumables do
+    get 'order', on: :collection
+  end
   resources :models
   resources :buildings do
     get 'users', on: :member
