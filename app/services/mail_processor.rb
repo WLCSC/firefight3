@@ -2,7 +2,7 @@ class MailProcessor
   class << self
     def call *args
       mail = args.pop
-      from = mail.sender.address.split('@')[0]
+      from = mail.envelope_from.split('@')[0]
       if u = User.find(from)
         if md = mail.subject.match(/[Rr][Ee]: Ticket #(\d+)/)
           frag = mail.body.split(/On .+@wl.k12.in.us> wrote:/)[0]
