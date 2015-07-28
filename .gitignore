@@ -21,3 +21,4 @@
 /public/static/*
  #ignore for security purposes
 /config/database.yml
+/config/secrets.yml
