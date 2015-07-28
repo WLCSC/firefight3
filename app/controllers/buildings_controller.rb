@@ -6,7 +6,7 @@ class BuildingsController < ApplicationController
   # GET /buildings
   # GET /buildings.json
   def index
-    @buildings = Building.all
+    @buildings = Building.order(:name)
   end
 
   # GET /buildings/1
