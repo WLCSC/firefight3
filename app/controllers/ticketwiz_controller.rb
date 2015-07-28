@@ -1,5 +1,6 @@
 class TicketwizController < ApplicationController
-  before_action :check_for_user
+  before_action :check_for_user, except: [:mail]
+  skip_before_action :verify_authenticity_token, only: [:mail]
   def topic
     @topics = current_user.topics
     if params[:targetable_type].present?
