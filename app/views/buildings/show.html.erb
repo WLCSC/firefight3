@@ -9,7 +9,7 @@
 
 <h1><%= @building.name %></h1>
 
-<p><strong>Storeroom: </strong> <%= @building.storeroom.name %></p>
+<p><strong>Storeroom: </strong> <%= @building.storeroom ? @building.storeroom.name : 'None Defined' %></p>
 
 <h2>Rooms</h2>
 <%= row do %>
