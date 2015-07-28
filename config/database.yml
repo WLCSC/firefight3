@@ -27,4 +27,5 @@ production:
   host: appx-database.wlcsc.k12.in.us
   database: firefight
   username: firefight
+  database: firefight
   password: CjZsQh9pki03qwYGv5FEgA

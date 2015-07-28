@@ -13,7 +13,7 @@
 
 <h2>Rooms</h2>
 <%= row do %>
-  <% @building.rooms.each do |room| %>
+  <% @building.rooms.order(:name).each do |room| %>
     <%= col(3) do %>
       <%= big_link room.name, building_room_path(@building, room), 'primary' %>
     <% end %>

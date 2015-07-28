@@ -12,4 +12,8 @@ class SubscriberNotifications < ApplicationMailer
 
     mail to: @user.mail, subject: "Re: Ticket ##{@ticket.id}"
   end
+
+  def test to
+    mail to: to, subject: 'Firefight Mail Test'
+  end
 end
