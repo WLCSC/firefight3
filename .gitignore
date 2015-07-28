@@ -18,3 +18,6 @@
 
 /config/ldap.yml
 /public/system/*
+/public/static/*
+ #ignore for security purposes
+/config/database.yml
