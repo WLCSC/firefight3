@@ -84,6 +84,10 @@ class TicketsController < ApplicationController
 
   end
 
+  def mail
+    MailProcessor.call Mail.read_from_string(request.body.read)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket

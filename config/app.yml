@@ -1,8 +1,10 @@
 development:
   admin_group: Technology Staff
+  mail_queue: 1
 
 test:
   admin_group: Technology Staff
 
 production:
   admin_group: Technology Staff
+  mail_queue: 3

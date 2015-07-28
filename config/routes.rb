@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'ticket_by_mail' => 'tickets#mail'
 
   get 'tools/' => 'tools#index', as: :tools
   post 'tools/checkin', as: :checkin_tool
