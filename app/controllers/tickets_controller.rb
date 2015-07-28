@@ -1,5 +1,7 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy, :attach, :step]
+  before_action :check_for_user, except: [:mail]
+  skip_before_action :verify_authenticity_token, only: [:mail]
 
   # GET /tickets
   # GET /tickets.json
