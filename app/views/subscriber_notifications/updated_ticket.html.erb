@@ -1,6 +1,8 @@
 <p>Hello <%= @user.nice_name %>, </p>
 
+<%= link_to ticket_url(@ticket) do %>
 <p>Ticket #<%= @ticket.id %> has been updated.</p>
+<% end %>
 
 <table>
   <tr>

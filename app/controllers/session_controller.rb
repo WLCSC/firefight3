@@ -1,10 +1,14 @@
 class SessionController < ApplicationController
   def create
-      if u = User.authenticate(params[:username], params[:password])
-          session[:udn] = u.dn.to_s
-          flash[:notice] = "Welcome, #{u.nice_name}"
-      else
-          flash[:error] = "Login failed."
+      begin
+        if u = User.authenticate(params[:username], params[:password])
+            session[:udn] = u.dn.to_s
+            flash[:notice] = "Welcome, #{u.nice_name}"
+        else
+            flash[:error] = "Login failed."
+        end
+      rescue
+        flash[:error] = "Login failed."
       end
       redirect_to root_path
   end

@@ -125,7 +125,7 @@ class Ticket < ActiveRecord::Base
   def notify_all
     list = []
     topic.mods.each do |sid|
-      SubscriberNotifications.updated_ticket(id, sid).deliver_later
+      list << sid
     end
     targetables.each do |t|
       if t.is_a? Group
@@ -137,7 +137,7 @@ class Ticket < ActiveRecord::Base
         elsif t.is_a? Room
           t.assets.each do |a|
             a.subscriptions.each do |s|
-              lsit << s.user_sid
+              list << s.user_sid
             end
           end
       end
