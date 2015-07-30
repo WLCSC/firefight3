@@ -37,6 +37,9 @@
   <% end %>
 <% end %>
 
+<h2>Incomplete Tickets</h2>    
+<%= render partial: 'tickets/pager', locals: {tickets: @asset.tickets.incomplete.for(current_user).page(params[:page])} %>
+
 <%= modal 'targetPicker', 'Choose Asset Owner' do %>
   <%= form_tag reassign_asset_path(@asset) do %>
     <%= row do %>

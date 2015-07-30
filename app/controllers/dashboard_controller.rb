@@ -16,8 +16,8 @@ class DashboardController < ApplicationController
       redirect_to Asset.find_by_tag(params[:asset_tag])
     when 'Service'
       redirect_to Service.find_by_name(params[:service_name])
-    when 'group'
-      redirect_to root_path
+    when 'Group'
+      redirect_to group_path(id: Group.find(params[:group_sid]).name)
     end
   end
 end

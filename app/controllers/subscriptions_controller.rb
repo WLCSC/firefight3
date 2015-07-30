@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions
   # GET /subscriptions.json
   def index
-    @subscriptions = (params[:sid].present? ? User.find(params[:sid]).subscriptions : current_user.my_subscriptions)
+    @subscriptions = (params[:sid].present? ? User.find(params[:sid]).my_subscriptions : current_user.my_subscriptions)
   end
 
   # GET /subscriptions/1
@@ -37,6 +37,7 @@ class SubscriptionsController < ApplicationController
         format.html { redirect_to subscriptions_path(sid: @subscription.user_sid), notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else
+	flash[:error] = @subscription.errors.full_messages.join ', '
         format.html { render :new }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end

@@ -15,7 +15,7 @@ class Ticket < ActiveRecord::Base
   end
   scope 'incomplete', -> {where.not(status: 1)}
   scope 'for', -> (u) {
-    topics = u.read_topics.map{&:id}
+    topics = u.read_topics.map(&:id)
     topicTickets = Ticket.where(topic_id: topics).pluck(:id)
     Ticket.where(id: u.tickets.map(&:id) + topicTickets)
   }

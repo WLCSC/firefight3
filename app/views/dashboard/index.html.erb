@@ -1,5 +1,5 @@
 <% if current_user %>
-<%= action_row big_link("Submit Ticket", wiz_topic_path, 'primary', 'tag'), big_link('Ticket Finder', tickets_path, 'warning', 'search'), big_link("Your Subscriptions", subscriptions_path, 'info', 'send'), big_link('Service Info', services_path, 'success', 'dashboard') %>
+<%= action_row big_link("Submit Ticket", wiz_topic_path, 'primary', 'tag'), big_link('Ticket Finder', tickets_path(status: 'i'), 'warning', 'search'), big_link("Your Subscriptions", subscriptions_path, 'info', 'send'), big_link('Service Info', services_path, 'success', 'dashboard') %>
 
 <% end %>
 <%= row do %>

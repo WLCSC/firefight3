@@ -11,6 +11,9 @@
 
 <p><strong>Storeroom: </strong> <%= @building.storeroom ? @building.storeroom.name : 'None Defined' %></p>
 
+<h2>Incomplete Tickets</h2>    
+<%= render partial: 'tickets/pager', locals: {tickets: @building.tickets.incomplete.for(current_user).page(params[:page])} %>
+
 <h2>Rooms</h2>
 <%= row do %>
   <% @building.rooms.order(:name).each do |room| %>

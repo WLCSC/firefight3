@@ -6,3 +6,6 @@
               (current_admin ? big_link("Destroy Topic", '#', 'danger', 'bomb') : nil) %>
 
 <h1><%= @topic.name %></h1>
+
+<h2>Incomplete Tickets</h2>    
+<%= render partial: 'tickets/pager', locals: {tickets: @topic.tickets.incomplete.for(current_user).page(params[:page])} %>

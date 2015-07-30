@@ -76,7 +76,7 @@ class Service < ActiveRecord::Base
   end
 
   def tickets
-    ids = Target.where(targetable_type: 'Service', targetable_id: (children.map{&:id} + [id])).map{|t| t.ticket.id}
+    ids = Target.where(targetable_type: 'Service', targetable_id: (children.map(&:id) + [id])).map{|t| t.ticket.id}
     Ticket.where(id: ids.uniq)
   end
 

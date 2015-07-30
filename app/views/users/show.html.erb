@@ -41,3 +41,6 @@
 <% end %>
 <% end %>
 <% end %>
+
+<h2>Incomplete Tickets</h2>
+<%= render partial: 'tickets/pager', locals: {tickets: @user.tickets.incomplete.for(current_user).page(params[:page])} %>

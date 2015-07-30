@@ -16,7 +16,7 @@ class Building < ActiveRecord::Base
   end
 
   def tickets
-    ids = Targets.where(targetable_type: 'Building', targetable_id: id).map{|t| t.ticket.id}
+    ids = Target.where(targetable_type: 'Building', targetable_id: id).map{|t| t.ticket.id}
     ids += rooms.map{|r| r.tickets.map(&:id)}
     Ticket.where(id: ids.uniq)
   end

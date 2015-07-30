@@ -88,6 +88,7 @@ class TicketsController < ApplicationController
 
   def mail
     MailProcessor.call Mail.read_from_string(request.body.read)
+    render text: 'OK'
   end
 
   private

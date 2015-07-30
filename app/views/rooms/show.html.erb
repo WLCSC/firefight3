@@ -10,8 +10,11 @@
 
 <p><%= @room.description %></p>
 
-<h2>Assets in this Room</h2>
 
+<h2>Incomplete Tickets</h2>    
+<%= render partial: 'tickets/pager', locals: {tickets: @room.tickets.incomplete.for(current_user).page(params[:page])} %>
+
+<h2>Assets in this Room</h2>
 <% @room.assets.each do |a| %>
   <%= link_to a.tag, a, class: 'btn btn-info' %>
 <% end %>
