@@ -15,6 +15,12 @@ class Building < ActiveRecord::Base
     name
   end
 
+  def tickets
+    ids = Targets.where(targetable_type: 'Building', targetable_id: id).map{|t| t.ticket.id}
+    ids += rooms.map{|r| r.tickets.map(&:id)}
+    Ticket.where(id: ids.uniq)
+  end
+
   def subscriptions
     Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
   end

@@ -22,6 +22,11 @@ class Asset < ActiveRecord::Base
     end
   end
 
+  def tickets
+    ids = Target.where(targetable_type: 'Asset', targetable_id: id).map{|t| t.ticket.id}.uniq
+    Ticket.where(id: ids)
+  end
+
   def ping
     if name && c = Computer.find(:first, name)
       c.ping

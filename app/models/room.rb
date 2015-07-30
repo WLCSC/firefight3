@@ -11,6 +11,11 @@ class Room < ActiveRecord::Base
     "#{building.short}/#{name}"
   end
 
+  def tickets
+    ids = Target.where(targetable_type: 'Asset', targetable_id: assets.map(&:id)).map{|t| t.ticket.id} + Target.where(targetable_type: 'Room', targetable_id: id).map{|t| t.ticket.id}
+    Ticket.where(id: ids.uniq)
+  end
+
   def assets
     Asset.where(targetable_type: 'Room', targetable_id: id)
   end

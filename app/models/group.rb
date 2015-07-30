@@ -20,6 +20,12 @@ class Group < ActiveLdap::Base
     list
   end
 
+  def tickets
+    ids = Target.where(targetable_type: 'Group', targetable_id: name).map{|t| t.ticket.id}
+    ids += Target.where(targetable_type: 'User', targetable_id: members.map(&:samaccountname))
+    Ticket.where(id: ids.uniq)
+  end
+
   def subscriptions
     Subscription.where(subscribable_type: self.class.to_s, subscribable_id: id)
   end
