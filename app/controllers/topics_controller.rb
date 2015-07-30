@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
   before_action :set_topic, only: [:show, :edit, :update, :destroy, :allow, :deny, :permissions]
-  before_action :check_for_admin
+  before_action :check_for_mod
+  before_action :check_for_admin, only: [:new, :create, :edit, :update, :permissions, :allow, :deny]
 
   # GET /topics
   # GET /topics.json

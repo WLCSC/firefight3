@@ -14,6 +14,11 @@ class Ticket < ActiveRecord::Base
     scope l.downcase.gsub(/\W/,'_'), -> {where(status: v)}
   end
   scope 'incomplete', -> {where.not(status: 1)}
+  scope 'for', -> (u) {
+    topics = u.read_topics.map{&:id}
+    topicTickets = Ticket.where(topic_id: topics).pluck(:id)
+    Ticket.where(id: u.tickets.map(&:id) + topicTickets)
+  }
 
   def create_submodels
     Comment.create(content: self.comment, attachable_id: id, attachable_type: 'Ticket', user_sid: submitter_sid)
